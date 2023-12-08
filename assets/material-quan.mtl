@@ -26,24 +26,19 @@
   ],
   "_props": [
     {
-      "mainColor": {
-        "__type__": "cc.Color",
-        "r": 255,
-        "g": 255,
-        "b": 255,
-        "a": 151
+      "MoveTexture": {
+        "__uuid__": "e19bd840-ae05-44cc-af50-40ba050dface@6c48a",
+        "__expectedType__": "cc.Texture2D"
       },
       "RotColor": {
         "__type__": "cc.Color",
-        "r": 66,
-        "g": 81,
-        "b": 253,
+        "r": 250,
+        "g": 58,
+        "b": 58,
         "a": 255
       },
-      "rotationAngle": 0.9492,
-      "EdgeRange": 1,
       "RotTexture": {
-        "__uuid__": "07eebae3-7172-4736-a3a6-234698deaacb@6c48a",
+        "__uuid__": "498ca752-962c-4769-a638-3fc0f8bee628@6c48a",
         "__expectedType__": "cc.Texture2D"
       }
     }
