@@ -21,11 +21,11 @@
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 104
+      "__id__": 108
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 105
+      "__id__": 109
     },
     "_id": "193c38d8-9123-4062-af52-487fd8ed4b68"
   },
@@ -74,13 +74,13 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 101
+        "__id__": 105
       },
       {
-        "__id__": 102
+        "__id__": 106
       },
       {
-        "__id__": 103
+        "__id__": 107
       }
     ],
     "_prefab": null,
@@ -1806,7 +1806,10 @@
         "__id__": 99
       },
       {
-        "__id__": 100
+        "__id__": 101
+      },
+      {
+        "__id__": 103
       }
     ],
     "removedComponents": []
@@ -1837,8 +1840,8 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": 360.981,
-      "y": -191.016,
+      "x": 481.263,
+      "y": -154.073,
       "z": 0
     }
   },
@@ -1901,9 +1904,9 @@
     ],
     "value": {
       "__type__": "cc.Color",
-      "r": 67,
-      "g": 158,
-      "b": 170,
+      "r": 0,
+      "g": 176,
+      "b": 199,
       "a": 215
     }
   },
@@ -1936,7 +1939,7 @@
   {
     "__type__": "CCPropertyOverrideInfo",
     "targetInfo": {
-      "__id__": 96
+      "__id__": 100
     },
     "propertyPath": [
       "_spriteFrame"
@@ -1947,14 +1950,45 @@
     }
   },
   {
+    "__type__": "cc.TargetInfo",
+    "localID": [
+      "2aTyyBJ41PgJkyWtQCb26q"
+    ]
+  },
+  {
     "__type__": "CCPropertyOverrideInfo",
     "targetInfo": {
-      "__id__": 96
+      "__id__": 102
     },
     "propertyPath": [
       "_type"
     ],
     "value": 1
+  },
+  {
+    "__type__": "cc.TargetInfo",
+    "localID": [
+      "2aTyyBJ41PgJkyWtQCb26q"
+    ]
+  },
+  {
+    "__type__": "CCPropertyOverrideInfo",
+    "targetInfo": {
+      "__id__": 104
+    },
+    "propertyPath": [
+      "_customMaterial"
+    ],
+    "value": {
+      "__uuid__": "d1ae1a3a-d9ae-44dd-b4ad-9ce614c34425",
+      "__expectedType__": "cc.Material"
+    }
+  },
+  {
+    "__type__": "cc.TargetInfo",
+    "localID": [
+      "2aTyyBJ41PgJkyWtQCb26q"
+    ]
   },
   {
     "__type__": "cc.UITransform",
@@ -2042,19 +2076,19 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 106
+      "__id__": 110
     },
     "shadows": {
-      "__id__": 107
+      "__id__": 111
     },
     "_skybox": {
-      "__id__": 108
+      "__id__": 112
     },
     "fog": {
-      "__id__": 109
+      "__id__": 113
     },
     "octree": {
-      "__id__": 110
+      "__id__": 114
     }
   },
   {
