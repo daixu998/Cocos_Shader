@@ -1,0 +1,75 @@
+{
+  "__type__": "cc.Material",
+  "_name": "",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "c9823a5f-4acf-4e37-bd0a-86abaecf7403",
+    "__expectedType__": "cc.EffectAsset"
+  },
+  "_techIdx": 0,
+  "_defines": [
+    {
+      "USE_TEXTURE": true
+    }
+  ],
+  "_states": [
+    {
+      "rasterizerState": {},
+      "depthStencilState": {},
+      "blendState": {
+        "targets": [
+          {
+            "blendSrc": 2,
+            "blendDst": 4,
+            "blendSrcAlpha": 2
+          }
+        ]
+      }
+    }
+  ],
+  "_props": [
+    {
+      "PolerTexture": {
+        "__uuid__": "07eebae3-7172-4736-a3a6-234698deaacb@6c48a",
+        "__expectedType__": "cc.Texture2D"
+      },
+      "PolerTiling_Offset": {
+        "__type__": "cc.Vec4",
+        "x": 0.24,
+        "y": 2,
+        "z": 0,
+        "w": 0
+      },
+      "mainColor": {
+        "__type__": "cc.Color",
+        "r": 11,
+        "g": 14,
+        "b": 82,
+        "a": 255
+      },
+      "polerColor": {
+        "__type__": "cc.Color",
+        "r": 145,
+        "g": 220,
+        "b": 235,
+        "a": 255
+      },
+      "RotColor": {
+        "__type__": "cc.Color",
+        "r": 122,
+        "g": 165,
+        "b": 255,
+        "a": 255
+      },
+      "xxx": 0.15,
+      "yyy": 0,
+      "rotationAngle": 0.2,
+      "EdgeRange": 2,
+      "RotTexture": {
+        "__uuid__": "fc8587ff-ee22-438e-863f-3fba38e305aa@6c48a",
+        "__expectedType__": "cc.Texture2D"
+      }
+    }
+  ]
+}
