@@ -48,10 +48,10 @@ export class ScratchCard extends Component {
     aaa: Graphics;
     _addCircle(point) {
         this.aaa = this.myMask.graphics;
-        // this.aaa.rect(point.x,point.y,50,40);
-        this.aaa.lineWidth=50;
+        this.aaa.rect(point.x,point.y,50,40);
+        // this.aaa.lineWidth=50;
 
-        this.aaa.moveTo(point.x - 25, point.y - 20);
+        // this.aaa.moveTo(point.x - 25, point.y - 20);
         this.aaa.fill();
     }
 }
