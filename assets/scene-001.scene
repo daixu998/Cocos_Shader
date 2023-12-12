@@ -2436,8 +2436,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -19.295,
-      "y": 73.32,
+      "x": 0,
+      "y": 0,
       "z": 0
     },
     "_lrot": {
@@ -2449,8 +2449,8 @@
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 3.59,
-      "y": 3.59,
+      "x": 1,
+      "y": 1,
       "z": 3.59
     },
     "_layer": 33554432,
@@ -2482,8 +2482,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 29.755,
-      "y": -53.134,
+      "x": -20.368,
+      "y": 86.563,
       "z": 0
     },
     "_lrot": {
@@ -2519,8 +2519,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 776,
-      "height": 607
+      "width": 1552.12,
+      "height": 1214
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2555,7 +2555,7 @@
     },
     "_type": 1,
     "_fillType": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
       "x": 0,
@@ -2638,8 +2638,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 38.639,
-      "y": -96.452,
+      "x": 0,
+      "y": 0,
       "z": 0
     },
     "_lrot": {
@@ -2675,8 +2675,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 317,
-      "height": 172
+      "width": 634,
+      "height": 342
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2700,9 +2700,9 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 151,
-      "g": 151,
-      "b": 151,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_spriteFrame": {
@@ -2711,7 +2711,7 @@
     },
     "_type": 0,
     "_fillType": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
       "x": 0,
@@ -2735,8 +2735,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 500,
-      "height": 500
+      "width": 700,
+      "height": 600
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2808,7 +2808,8 @@
     "mainCamera": {
       "__id__": 4
     },
-    "with": 60,
+    "with": 50,
+    "hight": 0.1,
     "_id": "0432b66FJEoLHbD0pO0lZ9"
   },
   {
