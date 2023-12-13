@@ -79,7 +79,7 @@ export class ScratchCard extends Component {
 
     _onTouchEnd(event: EventTouch) {
         var point = event.touch.getLocation() as any;
-        
+        // point = this.mainCamera.screenToWorld(v3(point.x, point.y,0))
         point = this.node.getComponent(UITransform).convertToNodeSpaceAR(v3(point.x, point.y));
         this._addCircle(point);
         
