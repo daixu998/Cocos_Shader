@@ -2,7 +2,7 @@ import { _decorator, Component, Node, EventTouch, Mask, RenderTexture, Sprite, S
 
 const { ccclass, property } = _decorator;
 
-@ccclass('ScratchCard')
+@ccclass('ScratchCard_Line')
 export class ScratchCard extends Component {
     @property(Mask)
     myMask: Mask = null;
@@ -25,6 +25,7 @@ export class ScratchCard extends Component {
     public hight: number =3;
 
     //注册鼠标事件
+    
     onLoad() {
         this.aaa = this.myMask.graphics;
         this.node.on(Node.EventType.TOUCH_START, this._onTouchBegin, this);
