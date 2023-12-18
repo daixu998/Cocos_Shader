@@ -7,29 +7,36 @@ export class ScratchCard extends Component {
     @property(Mask)
     myMask: Mask = null;
 
+
     @property(Camera)
     mainCamera: Camera = null;
+
+
     @property(Node)
     maskBg: Node = null;
+
 
     // const temp_vec2 = new Vec2();
     @property({
         displayName: "刮卡路径宽度",
         min: 0
     })
-
-
     public with: number = 3;
+
+
     @property({
         displayName: "刮卡路径高度",
         min: 0
     })
     public hight: number =3;
 
+
+
     private hidePointsNum :number;
     private hidePoints = [];
+
+
     //注册鼠标事件
-    
     onLoad() {
         this.initMaskPoints();
         this.aaa = this.myMask.graphics;
@@ -73,15 +80,11 @@ export class ScratchCard extends Component {
         this.aaa.circle(point.x ,point.y,this.with*0.2);
         this.aaa.moveTo(point.x,point.y);
 
-
         this.aaa.lineWidth = this.with;
         this.aaa.lineJoin = 1;
         this.aaa.lineCap = 1;
         // this.aaa.strokeColor.set(255,25,0,255);
         // this.aaa.fillColor.set(0,255,0,255);
-
-
-
     }
 
     _onTouchMoved(event: EventTouch) {
@@ -90,14 +93,12 @@ export class ScratchCard extends Component {
         point = this.mainCamera.screenToWorld(v3(point.x, point.y,0))
         point = this.node.getComponent(UITransform).convertToNodeSpaceAR(v3(point.x, point.y));
         
-
         this.aaa = this.myMask.graphics;
         this.aaa.lineWidth =this.with ;
         this.aaa.strokeColor = Color.WHITE;
         this.aaa.lineTo(point.x,point.y);
         // this.aaa.rect(point.x - this.with * 0.5,point.y - this.hight * 0.5,this.with,this.hight);
         this.calcScratchArea(point);
-
         this.aaa.stroke();
 
     }
@@ -112,6 +113,7 @@ export class ScratchCard extends Component {
         this.calcScratchArea(point);
 
         if (this.hidePoints.length/this.hidePointsNum <0.8) {
+            // this.myMask.getComponent<Sprite>.Color
             this.myMask.node.active = false;
         }
 

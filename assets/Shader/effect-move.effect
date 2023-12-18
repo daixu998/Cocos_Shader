@@ -1,0 +1,140 @@
+// Effect Syntax Guide: https://docs.cocos.com/creator/manual/zh/shader/index.html
+
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: sprite-vs:vert
+      frag: sprite-fs:frag
+      depthStencilState:
+        depthTest: false
+        depthWrite: false
+      blendState:
+        targets:
+        - blend: true
+          blendSrc: one
+          #_src_alpha
+          blendDst: one
+          #_minus_src_alpha
+          blendSrcAlpha: one
+          #_src_alpha
+          blendDstAlpha: one
+          #_minus_src_alpha
+      rasterizerState:
+        cullMode: none
+      properties:
+        alphaThreshold: { value: 0.5 }
+        MoveTexture:    { value: white }
+        MoveTiling_Offset:      { value: [1, 1, 0, 0]  }
+        mainColor:      { value: [1.0, 1.0, 1.0, 1.0], editor: { type: color } }
+        moveColor:      { value: [1.0, 1.0, 1.0, 1.0], editor: { type: color } }
+        # RotColor:      { value: [1.0, 1.0, 1.0, 1.0], editor: { type: color } }
+        xxx:            { value: 0.05, target: coatRoughness.x, editor: { slide : true, range : [-2.0, 20.0] , step : 0.0001 } }
+        yyy:            { value: 0.05, target: coatRoughness.y, editor: { slide : true, range : [-2.0, 2.0] , step : 0.0001 } }
+        # rotationAngle:  { value: 0.05, target: coatRoughness.z, editor: { slide : true, range : [-20.0, 20.0] , step : 0.0001 } }
+        Center:         { value:  [0.5, 0.5], target: center.xy, editor: { slide : true, range : [-10.0, 10.0] , step : 0.0001 } }
+        EdgeRange:       { value:  1.5, target: center.z, editor: { slide : true, range : [1.0, 10.0] , step : 1.000 } }
+        # RotTexture:    { value: white }
+}%
+
+
+CCProgram sprite-vs %{
+  precision highp float;
+  #include <cc-global>
+  #if USE_LOCAL
+    #include <cc-local>
+  #endif
+  #if SAMPLE_FROM_RT
+    #include <common>
+  #endif
+  in vec3 a_position;
+  in vec2 a_texCoord;
+  in vec4 a_color;
+
+  out vec4 color;
+  out vec2 uv0;
+  out vec2 uv;
+
+  vec4 vert () {
+    vec4 pos = vec4(a_position, 1);
+
+    #if USE_LOCAL
+      pos = cc_matWorld * pos;
+    #endif
+
+    #if USE_PIXEL_ALIGNMENT
+      pos = cc_matView * pos;
+      pos.xyz = floor(pos.xyz);
+      pos = cc_matProj * pos;
+    #else
+      pos = cc_matViewProj * pos;
+    #endif
+
+    uv0 = a_texCoord;
+    uv = a_texCoord;
+    #if SAMPLE_FROM_RT
+      CC_HANDLE_RT_SAMPLE_FLIP(uv0);
+    #endif
+    color = a_color;
+
+    return pos;
+  }
+}%
+
+CCProgram sprite-fs %{
+  precision highp float;
+  #include <embedded-alpha>
+  #include <alpha-test>
+  #include <cc-global>
+  in vec4 color;
+  in vec2 v_uv;
+  // in vec3 v_position;
+
+  #if USE_TEXTURE
+    in vec2 uv0;
+    uniform  sampler2D MoveTexture;
+    // uniform  sampler2D RotTexture;
+    #pragma builtin(local)
+    layout(set = 2, binding = 11) uniform sampler2D cc_spriteTexture;
+  #endif
+
+
+
+  uniform Constant {
+    vec4 MoveTiling_Offset;
+    vec4 mainColor;
+    vec4 moveColor;
+    // vec4 RotColor;
+    vec4 coatRoughness;
+    vec4 center;
+    };
+
+
+
+    vec4 frag () {
+    vec4 o = vec4(1, 1, 1, 1);
+    // 计算旋转后的纹理坐标
+    #if USE_TEXTURE
+  // float u_rotationAngle = coatRoughness.z;//cc_time.x*
+
+      // vec2 rotatedUV = vec2(
+      //   cos(u_rotationAngle) * (uv0.x - center.x) - sin(u_rotationAngle) * (uv0.y - center.y) + center.x,
+      //   sin(u_rotationAngle) * (uv0.x - center.x) + cos(u_rotationAngle) * (uv0.y - center.y) + center.y
+      // );
+      vec2 move =  fract( cc_time.xx*coatRoughness.xy)*2.0-1.0;
+      vec4 movetex =   texture(MoveTexture, uv0*MoveTiling_Offset.xy +MoveTiling_Offset.zw +move)*moveColor;
+      o *= CCSampleWithAlphaSeparated(cc_spriteTexture, uv0)*mainColor;//CCSampleWithAlphaSeparated
+      // vec4 maskTex =    texture(RotTexture, rotatedUV) *RotColor;
+       o = (movetex*movetex.a)*pow(o.a,center.z);
+      //  o *= movetex*movetex.a;
+      #if IS_GRAY
+        float gray  = 0.2126 * o.r + 0.7152 * o.g + 0.0722 * o.b;
+        o.r = o.g = o.b = gray;
+
+      #endif
+    #endif
+
+    o *= color;
+    // ALPHA_TEST(o);
+    return o;
+  }
+}%
