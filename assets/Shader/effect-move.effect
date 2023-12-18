@@ -23,16 +23,16 @@ CCEffect %{
         cullMode: none
       properties:
         alphaThreshold: { value: 0.5 }
-        MoveTexture:    { value: white }
+        # MoveTexture:    { value: white }
         MoveTiling_Offset:      { value: [1, 1, 0, 0]  }
         mainColor:      { value: [1.0, 1.0, 1.0, 1.0], editor: { type: color } }
-        moveColor:      { value: [1.0, 1.0, 1.0, 1.0], editor: { type: color } }
+        # moveColor:      { value: [1.0, 1.0, 1.0, 1.0], editor: { type: color } }
         # RotColor:      { value: [1.0, 1.0, 1.0, 1.0], editor: { type: color } }
         xxx:            { value: 0.05, target: coatRoughness.x, editor: { slide : true, range : [-2.0, 20.0] , step : 0.0001 } }
         yyy:            { value: 0.05, target: coatRoughness.y, editor: { slide : true, range : [-2.0, 2.0] , step : 0.0001 } }
-        # rotationAngle:  { value: 0.05, target: coatRoughness.z, editor: { slide : true, range : [-20.0, 20.0] , step : 0.0001 } }
-        Center:         { value:  [0.5, 0.5], target: center.xy, editor: { slide : true, range : [-10.0, 10.0] , step : 0.0001 } }
-        EdgeRange:       { value:  1.5, target: center.z, editor: { slide : true, range : [1.0, 10.0] , step : 1.000 } }
+        rotationAngle:  { value: 0.05, target: coatRoughness.z, editor: { slide : true, range : [-20.0, 20.0] , step : 0.0001 } }
+        # Center:         { value:  [0.5, 0.5], target: center.xy, editor: { slide : true, range : [-10.0, 10.0] , step : 0.0001 } }
+        # EdgeRange:       { value:  1.5, target: center.z, editor: { slide : true, range : [1.0, 10.0] , step : 1.000 } }
         # RotTexture:    { value: white }
 }%
 
@@ -53,9 +53,25 @@ CCProgram sprite-vs %{
   out vec4 color;
   out vec2 uv0;
   out vec2 uv;
+  uniform Constant {
+    vec4 MoveTiling_Offset;
+    vec4 mainColor;
+    // vec4 moveColor;
+    // vec4 RotColor;
+    vec4 coatRoughness;
+    // vec4 center;
+    };
 
   vec4 vert () {
+
+    // uniform builtin {
+
+    // };
+
+
     vec4 pos = vec4(a_position, 1);
+
+    pos.x -= a_texCoord.y*coatRoughness.z;
 
     #if USE_LOCAL
       pos = cc_matWorld * pos;
@@ -91,7 +107,7 @@ CCProgram sprite-fs %{
 
   #if USE_TEXTURE
     in vec2 uv0;
-    uniform  sampler2D MoveTexture;
+    // uniform  sampler2D MoveTexture;
     // uniform  sampler2D RotTexture;
     #pragma builtin(local)
     layout(set = 2, binding = 11) uniform sampler2D cc_spriteTexture;
@@ -102,10 +118,10 @@ CCProgram sprite-fs %{
   uniform Constant {
     vec4 MoveTiling_Offset;
     vec4 mainColor;
-    vec4 moveColor;
+    // vec4 moveColor;
     // vec4 RotColor;
     vec4 coatRoughness;
-    vec4 center;
+    // vec4 center;
     };
 
 
@@ -121,10 +137,10 @@ CCProgram sprite-fs %{
       //   sin(u_rotationAngle) * (uv0.x - center.x) + cos(u_rotationAngle) * (uv0.y - center.y) + center.y
       // );
       vec2 move =  fract( cc_time.xx*coatRoughness.xy)*2.0-1.0;
-      vec4 movetex =   texture(MoveTexture, uv0*MoveTiling_Offset.xy +MoveTiling_Offset.zw +move)*moveColor;
-      o *= CCSampleWithAlphaSeparated(cc_spriteTexture, uv0)*mainColor;//CCSampleWithAlphaSeparated
+      // vec4 movetex =   texture(MoveTexture, uv0*MoveTiling_Offset.xy +MoveTiling_Offset.zw +move)*moveColor;
+      o *= texture(cc_spriteTexture, uv0+move)*mainColor;//CCSampleWithAlphaSeparated
       // vec4 maskTex =    texture(RotTexture, rotatedUV) *RotColor;
-       o = (movetex*movetex.a)*pow(o.a,center.z);
+      //  o = (movetex*movetex.a);
       //  o *= movetex*movetex.a;
       #if IS_GRAY
         float gray  = 0.2126 * o.r + 0.7152 * o.g + 0.0722 * o.b;

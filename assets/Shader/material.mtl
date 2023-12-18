@@ -19,32 +19,19 @@
       "depthStencilState": {},
       "blendState": {
         "targets": [
-          {}
+          {
+            "blendSrc": 2,
+            "blendDst": 4
+          }
         ]
       }
     }
   ],
   "_props": [
     {
-      "MoveTexture": {
-        "__uuid__": "083b1a6a-a8b7-4208-bad5-f68010c32a96@6c48a",
-        "__expectedType__": "cc.Texture2D"
-      },
-      "RotColor": {
-        "__type__": "cc.Color",
-        "r": 0,
-        "g": 0,
-        "b": 0,
-        "a": 255
-      },
-      "xxx": 0.2,
+      "xxx": 0.1,
       "yyy": 0,
-      "rotationAngle": 4.4453,
-      "EdgeRange": 1,
-      "RotTexture": {
-        "__uuid__": "6d97cc7a-056c-4120-9459-58007dfc50c0@6c48a",
-        "__expectedType__": "cc.Texture2D"
-      }
+      "rotationAngle": 6.8944
     }
   ]
 }
