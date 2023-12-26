@@ -1,0 +1,59 @@
+// Effect Syntax Guide: https://docs.cocos.com/creator/manual/zh/shader/index.html
+
+CCEffect %{
+  techniques:
+  - name: opaque
+    passes:
+    - vert: general-vs:vert # builtin header
+      frag: unlit-fs:frag
+      properties: &props
+        mainTexture:    { value: white }
+        mainColor:      { value: [1, 1, 1, 1], editor: { type: color } }
+        xxx:            { value: 1.0, target: coatRoughness.x, editor: { slide : true, range : [0.0, 20.0] , step : 0.0001 } }
+        yyy:            { value: 1.0, target: coatRoughness.y, editor: { slide : true, range : [0.0, 20.0] , step : 0.0001 } }
+        speed:  { value: 0.05, target: coatRoughness.z, editor: { slide : true, range : [-20.0, 40.0] , step : 0.0001 } }
+  - name: transparent
+    passes:
+    - vert: general-vs:vert # builtin header
+      frag: unlit-fs:frag
+      blendState:
+        targets:
+        - blend: true
+          blendSrc: src_alpha
+          blendDst: one_minus_src_alpha
+          blendSrcAlpha: src_alpha
+          blendDstAlpha: one_minus_src_alpha
+      properties: *props
+}%
+
+CCProgram unlit-fs %{
+  precision highp float;
+  #include <output>
+  #include <cc-fog-fs>
+  #include <cc-global>
+  in vec2 v_uv;
+  in vec3 v_position;
+
+  uniform sampler2D mainTexture;
+  #if USE_TEXTURE
+  #pragma builtin(local)
+  layout(set = 2, binding = 11) uniform sampler2D cc_spriteTexture;
+  #endif
+  uniform Constant {
+    vec4 mainColor;
+    vec4 coatRoughness;
+  };
+
+  vec4 frag () {
+    float time = floor( cc_time.x * coatRoughness.z);
+    float y = floor( time / coatRoughness.y );
+    float x = time - y*coatRoughness.x;
+    vec2 uv = v_uv + vec2(x,y);
+    uv.x /= coatRoughness.y;
+    uv.y /= coatRoughness.x;
+    // vec4 col = mainColor * texture(mainTexture, uv +uvmove);
+    vec4 col =  texture(cc_spriteTexture, uv ) ;
+    CC_APPLY_FOG(col, v_position);
+    return CCFragOutput(col);
+  }
+}%
