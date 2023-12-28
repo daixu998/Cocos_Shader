@@ -7,7 +7,7 @@
     "__uuid__": "5e3b9e7c-ba4e-4c5d-ae46-f77b9a439679",
     "__expectedType__": "cc.EffectAsset"
   },
-  "_techIdx": 0,
+  "_techIdx": "1",
   "_defines": [
     {
       "USE_TEXTURE": true
@@ -20,8 +20,8 @@
       "blendState": {
         "targets": [
           {
-            "blendDst": 1,
-            "blendDstAlpha": 1
+            "blendSrc": 1,
+            "blendDst": 1
           }
         ]
       }
@@ -31,7 +31,7 @@
     {
       "xxx": 4,
       "yyy": 4,
-      "speed": 27.5347
+      "speed": 15
     }
   ]
 }
