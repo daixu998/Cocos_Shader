@@ -2,7 +2,7 @@
   "ver": "1.0.23",
   "importer": "image",
   "imported": true,
-  "uuid": "5847dfcb-f554-4383-8c77-72a70c0837df",
+  "uuid": "d29a01a0-7889-489b-8c8f-0edbe040c275",
   "files": [
     ".png",
     ".json"
@@ -10,14 +10,14 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "5847dfcb-f554-4383-8c77-72a70c0837df@6c48a",
-      "displayName": "tiankong",
+      "uuid": "d29a01a0-7889-489b-8c8f-0edbe040c275@6c48a",
+      "displayName": "text4",
       "id": "6c48a",
       "name": "texture",
       "userData": {
-        "wrapModeS": "mirrored-repeat",
-        "wrapModeT": "mirrored-repeat",
-        "imageUuidOrDatabaseUri": "5847dfcb-f554-4383-8c77-72a70c0837df",
+        "wrapModeS": "clamp-to-edge",
+        "wrapModeT": "clamp-to-edge",
+        "imageUuidOrDatabaseUri": "d29a01a0-7889-489b-8c8f-0edbe040c275",
         "isUuid": true,
         "minfilter": "linear",
         "magfilter": "linear",
@@ -33,29 +33,29 @@
     },
     "f9941": {
       "importer": "sprite-frame",
-      "uuid": "5847dfcb-f554-4383-8c77-72a70c0837df@f9941",
-      "displayName": "tiankong",
+      "uuid": "d29a01a0-7889-489b-8c8f-0edbe040c275@f9941",
+      "displayName": "text4",
       "id": "f9941",
       "name": "spriteFrame",
       "userData": {
         "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
-        "offsetX": 0,
+        "offsetX": -2,
         "offsetY": 0,
-        "trimX": 0,
+        "trimX": 152,
         "trimY": 0,
-        "width": 2000,
-        "height": 438,
-        "rawWidth": 2000,
-        "rawHeight": 438,
+        "width": 517,
+        "height": 50,
+        "rawWidth": 825,
+        "rawHeight": 50,
         "borderTop": 0,
         "borderBottom": 0,
         "borderLeft": 0,
         "borderRight": 0,
         "packable": true,
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "5847dfcb-f554-4383-8c77-72a70c0837df@6c48a",
+        "imageUuidOrDatabaseUri": "d29a01a0-7889-489b-8c8f-0edbe040c275@6c48a",
         "atlasUuid": ""
       },
       "ver": "1.0.9",
@@ -70,6 +70,6 @@
     "type": "sprite-frame",
     "fixAlphaTransparencyArtifacts": true,
     "hasAlpha": true,
-    "redirect": "5847dfcb-f554-4383-8c77-72a70c0837df@f9941"
+    "redirect": "d29a01a0-7889-489b-8c8f-0edbe040c275@f9941"
   }
 }
