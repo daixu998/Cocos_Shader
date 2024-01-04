@@ -15,8 +15,8 @@
       "id": "6c48a",
       "name": "texture",
       "userData": {
-        "wrapModeS": "clamp-to-edge",
-        "wrapModeT": "clamp-to-edge",
+        "wrapModeS": "mirrored-repeat",
+        "wrapModeT": "mirrored-repeat",
         "imageUuidOrDatabaseUri": "5847dfcb-f554-4383-8c77-72a70c0837df",
         "isUuid": true,
         "minfilter": "linear",

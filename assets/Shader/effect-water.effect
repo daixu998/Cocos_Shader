@@ -51,11 +51,6 @@ CCProgram sprite-vs %{
 
   vec4 vert () {
 
-    // uniform builtin {
-
-    // };
-
-
     vec4 pos = vec4(a_position, 1);
 
 

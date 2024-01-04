@@ -1,0 +1,79 @@
+{
+  "__type__": "cc.Material",
+  "_name": "",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "ad3d8312-7779-47a7-b281-64c417a3be20",
+    "__expectedType__": "cc.EffectAsset"
+  },
+  "_techIdx": 0,
+  "_defines": [
+    {
+      "USE_TEXTURE": true,
+      "MAINTEXMOVE": true
+    }
+  ],
+  "_states": [
+    {
+      "rasterizerState": {},
+      "depthStencilState": {},
+      "blendState": {
+        "targets": [
+          {}
+        ]
+      }
+    }
+  ],
+  "_props": [
+    {
+      "mainTexMove": {
+        "__type__": "cc.Vec4",
+        "x": 0.001,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "cloud2Tex": {
+        "__uuid__": "2da194a1-7ea6-45f1-8fb5-5ceb300d2e92@6c48a",
+        "__expectedType__": "cc.Texture2D"
+      },
+      "cloud2Color": {
+        "__type__": "cc.Color",
+        "r": 145,
+        "g": 145,
+        "b": 145,
+        "a": 81
+      },
+      "could2move": {
+        "__type__": "cc.Vec4",
+        "x": 0.01,
+        "y": -0.001,
+        "z": 0,
+        "w": 0
+      },
+      "cloud3Tex": {
+        "__uuid__": "d448841d-9a5e-4604-8756-241b66bfe0be@6c48a",
+        "__expectedType__": "cc.Texture2D"
+      },
+      "cloud3Color": {
+        "__type__": "cc.Color",
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 57
+      },
+      "could3move": {
+        "__type__": "cc.Vec4",
+        "x": 0.015,
+        "y": 0.02,
+        "z": 0.23,
+        "w": 0.41
+      },
+      "Allcloudxxx": 0.01,
+      "Allcloudyyy": 0.001,
+      "scaleX": 0.0504,
+      "scaleY": 0.0627
+    }
+  ]
+}
