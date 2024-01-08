@@ -1,0 +1,246 @@
+// Copyright (c) 2017-2020 Xiamen Yaji Software Co., Ltd.
+CCEffect %{
+  techniques:
+  - name: opaque
+    passes:
+    - vert: unlit-vs:vert
+      frag: unlit-fs:frag
+      properties: &props
+        mainTexture:    { value: grey }
+        tilingOffset:   { value: [1, 1, 0, 0] }
+        mainColor:      { value: [1, 1, 1, 1], linear: true, editor: { type: color } }
+        alphaThreshold: { value: 0.5, target: colorScaleAndCutoff.w, editor: { parent: USE_ALPHA_TEST } }
+        
+        reflectColor:      { value: [1, 1, 1, 1], linear: true, editor: { type: color } }
+        reflectTexture:       { value: grey }
+        noisTexture:    { value: white }
+        noisTexTiling_Offset:      { value: [1, 1, 0, 0]  }
+        noisColor :      { value: [1, 1, 1, 1], linear: true, editor: { type: color } }
+        xMove:            { value: 0.05, target: coatRoughness.x, editor: { slide : true, range : [-0.1, 0.1] , step : 0.0001 } }
+        yMove:            { value: 0.05, target: coatRoughness.y, editor: { slide : true, range : [-0.1, 0.1] , step : 0.0001 } }
+
+        distur(raodong):  { value: 0.05, target: coatRoughness.z, editor: { slide : true, range : [-1.0, 1.0] , step : 0.0001 } }
+        deth:  { value: 0.05, target: coatRoughness.w, editor: { slide : true, range : [-3.0, 3.0] , step : 0.0001 } }
+        huanColor:      { value: [1, 1, 1, 1], linear: true, editor: { type: color } }
+        huanSpeed:  { value: 0.05, target: spriRoughness.x, editor: { slide : true, range : [0.0, 10.0] , step : 0.0001 } }
+        huanSize:  { value: 0.05, target: spriRoughness.y, editor: { slide : true, range : [-10.0, 10.0] , step : 0.0001 } }
+        huandaxiao:  { value: 0.05, target: spriRoughness.z, editor: { slide : true, range : [-2.0, 3.0] , step : -0.99} }
+        huanint:  { value: 0.05, target: spriRoughness.w, editor: { slide : true, range : [0.0, 10.0] , step : 3.0} }
+        WorldPos:      { value: [0, 0, 0, 0]  }
+      migrations: &migs
+        properties:
+          mainColor:    { formerlySerializedAs: color }
+  - name: transparent
+    passes:
+    - vert: unlit-vs:vert
+      frag: unlit-fs:frag
+      depthStencilState: &d1
+        depthTest: true
+        depthWrite: false
+      blendState:
+        targets:
+        - blend: true
+          blendSrc: src_alpha
+          blendDst: one_minus_src_alpha
+          blendDstAlpha: one_minus_src_alpha
+      properties: *props
+      migrations: *migs
+  - name: add
+    passes:
+    - vert: unlit-vs:vert
+      frag: unlit-fs:frag
+      rasterizerState: &r1 { cullMode: none }
+      depthStencilState: *d1
+      blendState:
+        targets:
+        - blend: true
+          blendSrc: src_alpha
+          blendDst: one
+          blendSrcAlpha: src_alpha
+          blendDstAlpha: one
+      properties: *props
+      migrations: *migs
+  - name: alpha-blend
+    passes:
+    - vert: unlit-vs:vert
+      frag: unlit-fs:frag
+      rasterizerState: *r1
+      depthStencilState: *d1
+      blendState:
+        targets:
+        - blend: true
+          blendSrc: src_alpha
+          blendDst: one_minus_src_alpha
+          blendSrcAlpha: src_alpha
+          blendDstAlpha: one_minus_src_alpha
+      properties: *props
+      migrations: *migs
+}%
+
+CCProgram unlit-vs %{
+  precision highp float;
+  #include <legacy/input-standard>//包含法线视向量的各种函数
+  #include <builtin/uniforms/cc-global>
+  #include <legacy/decode-base>
+  #include <legacy/local-batch>
+  #include <legacy/fog-vs>
+
+
+  #if USE_VERTEX_COLOR
+    in lowp vec4 a_color;
+    out lowp vec4 v_color;
+  #endif
+
+  out vec3 v_position;
+  out vec3 v_normal;
+
+  #if USE_PARALLAX
+  out mediump vec4 v_tangent;
+  out mediump vec4 v_bitangent;
+  #endif
+
+  #if USE_TEXTURE
+    out vec2 v_uv;
+    uniform TexCoords {
+      vec4 tilingOffset;
+    };
+  #endif
+
+  vec4 vert () {
+    StandardVertInput In;
+    CCVertInput(In);
+
+    mat4 matWorld, matWorldIT;
+    CCGetWorldMatrixFull(matWorld, matWorldIT);
+    vec4 pos = matWorld * In.position;
+    v_position = pos.xyz;
+    v_normal = normalize((matWorld * vec4(In.normal, 0.0)).xyz);
+    #if USE_PARALLAX
+    v_tangent.xyz = normalize((matWorld * vec4(In.tangent.xyz, 0.0)).xyz);
+      v_tangent.w = In.tangent.w;
+    v_bitangent.xyz = cross(v_normal.xyz, v_tangent.xyz) * In.tangent.w*(-1.0);
+    #endif
+    // v_bitangent.w = In.tangent.w;
+    #if USE_TEXTURE
+      v_uv = a_texCoord * tilingOffset.xy + tilingOffset.zw;
+      #if SAMPLE_FROM_RT
+        CC_HANDLE_RT_SAMPLE_FLIP(v_uv);
+      #endif
+    #endif
+
+    #if USE_VERTEX_COLOR
+      v_color = a_color;
+    #endif
+
+    CC_TRANSFER_FOG(matWorld * In.position);
+    return cc_matProj * (cc_matView * matWorld) * In.position;
+  }
+}%
+
+
+
+
+CCProgram unlit-fs %{
+  precision highp float;
+  #include <legacy/output-standard>  
+  #include <legacy/fog-fs>
+
+  #if USE_ALPHA_TEST
+    #pragma define-meta ALPHA_TEST_CHANNEL options([a, r, g, b])
+  #endif
+
+  in vec3 v_position;
+  in vec3 v_normal;
+  
+  #if USE_PARALLAX
+  in mediump vec4 v_tangent;
+  in mediump vec4 v_bitangent;
+  #endif
+
+  #if USE_TEXTURE
+    in vec2 v_uv;
+    uniform sampler2D mainTexture;
+    uniform samplerCube reflectTexture;
+    uniform sampler2D noisTexture;
+  #endif
+
+  uniform Constant {
+    vec4 mainColor;
+    vec4 reflectColor;
+    vec4 noisTexTiling_Offset;
+    vec4 colorScaleAndCutoff;
+    vec4 coatRoughness;
+    vec4 spriRoughness;
+    vec4 WorldPos;
+    vec4 noisColor;
+    vec4 huanColor;
+  };
+
+  #if USE_VERTEX_COLOR
+    in lowp vec4 v_color;
+  #endif
+
+  float huanm(vec2 uv3, vec2 Centre1,  float speed, float huan, float huandaxiao, float time1)
+  {
+      // vec2 uv10 = uv0 * uv.xy + uv.zw;
+      float temp = distance(uv3.xy, Centre1.xy);
+      float time0 = time1 * speed - 1.0;
+      float temp_output = max(sin((temp - time0) * huan) + huandaxiao, 0.0);
+      return temp_output ;
+  }
+
+	vec2 ParallaxOffset( float h, float height,vec3 viewDir )
+	{
+		h = h * height - height/2.0;
+		vec3 v = normalize( viewDir );
+		v.z += 0.42;
+		return h* (v.xy / v.z);
+	}
+
+  vec4 frag () {
+    vec4 o = vec4(1.0,1.0,1.0,1.0);
+    #if USE_VERTEX_COLOR
+      o.rgb *= SRGBToLinear(v_color.rgb);//use linear
+      o.a *= v_color.a;
+    #endif
+
+    #if USE_TEXTURE
+      vec2 move =  fract( cc_time.xx*coatRoughness.xy) ;
+
+      vec4 nois =  texture(noisTexture,v_position.xz*noisTexTiling_Offset.xy+noisTexTiling_Offset.zw+move);
+      
+
+      vec3 N = normalize(v_normal);
+      vec3 V = v_position - cc_cameraPos.xyz;
+
+      float dis = huanm(v_uv.xy,WorldPos.xz,spriRoughness.x,spriRoughness.y,spriRoughness.z,cc_time.x)*spriRoughness.w;
+      #if USE_PARALLAX
+      vec3 tanToWorld0  = vec3(v_tangent.x,v_bitangent.x,N.x); // note the cross order
+      vec3 tanToWorld1  = vec3(v_tangent.y,v_bitangent.y,N.y);
+      vec3 tanToWorld2  = vec3(v_tangent.z,v_bitangent.z,N.z);
+      // mat3 tanToWorld = mat3(tanToWorld0, tanToWorld1, tanToWorld2);
+      vec3 target_VDir =  V.x  * tanToWorld0 + V.y  * tanToWorld1 + V.z * tanToWorld2;
+      // vec3 target_VDir = tanToWorld*V*(-1.0);
+      target_VDir = normalize(-target_VDir);
+
+      vec2 v_uv = v_uv + ParallaxOffset(coatRoughness.w ,0.25 ,target_VDir);
+      #endif
+      vec3 R = V - 2.0 * N * dot(V, N) + nois.r * coatRoughness.z;
+      vec4 reflectTex = texture(reflectTexture, R);
+      
+      
+      vec4 mainTex = texture(mainTexture,v_uv+ nois.r * coatRoughness.z +dis)*mainColor;
+
+      o = mainTex+reflectTex*reflectColor +nois*noisColor + huanColor*dis;
+
+    #endif
+
+    #if USE_ALPHA_TEST
+      if (o.ALPHA_TEST_CHANNEL < colorScaleAndCutoff.w) discard;
+    #endif
+
+    CC_APPLY_FOG(o);
+    // ALPHA_TEST(o.a);
+    return CCFragOutput(o);
+  }
+}%
