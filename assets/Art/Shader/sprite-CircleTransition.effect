@@ -1,0 +1,81 @@
+
+CCEffect %{
+techniques: 
+  - passes: 
+      - vert: sprite-vs:vert
+        frag: sprite-fs:frag
+        depthStencilState: 
+          depthTest: false
+          depthWrite: false
+        blendState: 
+          targets: 
+            - blend: true
+              blendSrc: src_alpha
+              blendDst: one_minus_src_alpha
+              blendDstAlpha: one_minus_src_alpha
+        rasterizerState: 
+          cullMode: none
+        properties: 
+          # subTexture:    { value: black }
+}%
+        
+CCProgram sprite-vs %{
+  precision highp float;
+  #include <builtin/uniforms/cc-global>
+  in vec3 a_position;
+  in vec2 a_texCoord;
+  in vec4 a_color;
+  out vec4 color;
+  out vec2 uv0;
+ 
+ vec4 vert () {
+    vec4 pos = vec4(a_position, 1);
+    pos = cc_matViewProj * pos;
+    uv0 = a_texCoord;
+    color = a_color;
+    return pos;
+  }
+}%
+
+CCProgram sprite-fs %{
+  precision highp float;
+  // #include <SideTransition>
+  #include <builtin/internal/embedded-alpha>
+  #include <builtin/internal/alpha-test>
+  #include <builtin/uniforms/cc-global>
+const float tranSize = 32.;
+
+float rule(vec2 coord)
+{
+    vec2 uv2 = coord - vec2(0.5, 0.5);
+    float angle = atan(uv2.x, uv2.y);
+    return angle / 2.0 / 3.1416 + 0.5;
+}
+
+float CircleTransition(vec2 uv, float progression) {
+  // float mask = 0.0;
+  float rule = rule(uv);
+  float vague = 0.2;
+  float phase = progression * (1.0 + vague);
+  float p0 = smoothstep(rule, rule + vague, phase);
+  // color = color * (1.0 - p0) + mixcolor * p0;
+  return p0;
+}
+
+  in vec4 color;
+  in vec2 uv0;
+  #pragma builtin(local)
+  layout(set = 2, binding = 12) uniform sampler2D cc_spriteTexture;
+  // uniform sampler2D subTexture;
+
+  vec4 frag () {
+    // float mask0;
+    vec4 mainColor = texture(cc_spriteTexture, uv0);
+    // vec4 mixColor = texture(subTexture, uv0);
+    float progression = 1.-color.r;
+    mainColor.a =1.0 - CircleTransition(uv0, progression);
+     ALPHA_TEST(mainColor);
+    //  clip(mainColor.a);
+    return mainColor;
+   }
+ }%
