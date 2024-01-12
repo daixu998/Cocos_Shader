@@ -1,4 +1,5 @@
-// Copyright (c) 2017-2020 Xiamen Yaji Software Co., Ltd.
+// Effect Syntax Guide: https://docs.cocos.com/creator/manual/zh/shader/index.html
+
 CCEffect %{
   techniques:
   - passes:
@@ -17,11 +18,12 @@ CCEffect %{
         cullMode: none
       properties:
         alphaThreshold: { value: 0.5 }
+        OutLine: { value: 0.01 }
         mainColor:      { value: [1.0, 1.0, 1.0, 1.0], editor: { type: color } }
-        mainTexture:            { value: grey }
-        mainTiling_Offset:      { value: [1, 1, 0, 0]  }
-        addTexture:    { value: white }
-        addTiling_Offset:      { value: [1, 1, 0, 0]  }
+        # mainTexture:            { value: grey }
+#         mainTiling_Offset:      { value: [1, 1, 0, 0]  }
+#         addTexture:    { value: white }
+#         addTiling_Offset:      { value: [1, 1, 0, 0]  }
 }%
 
 CCProgram sprite-vs %{
@@ -47,13 +49,13 @@ CCProgram sprite-vs %{
       pos = cc_matWorld * pos;
     #endif
 
-    #if USE_PIXEL_ALIGNMENT
-      pos = cc_matView * pos;
-      pos.xyz = floor(pos.xyz);
-      pos = cc_matProj * pos;
-    #else
+    // #if USE_PIXEL_ALIGNMENT
+    //   pos = cc_matView * pos;
+    //   pos.xyz = floor(pos.xyz);
+    //   pos = cc_matProj * pos;
+    // #else
       pos = cc_matViewProj * pos;
-    #endif
+    // #endif
 
     uv0 = a_texCoord;
     #if SAMPLE_FROM_RT
@@ -64,6 +66,7 @@ CCProgram sprite-vs %{
     return pos;
   }
 }%
+
 
 CCProgram sprite-fs %{
   precision highp float;
@@ -80,8 +83,9 @@ CCProgram sprite-fs %{
 
   uniform FragConstants {
     vec4 mainColor;
-    vec4 mainTiling_Offset;
-    vec4 addTiling_Offset;
+    // vec4 mainTiling_Offset;
+    // vec4 addTiling_Offset;
+    float OutLine;
   };
 
   #if USE_TEXTURE
@@ -92,23 +96,31 @@ CCProgram sprite-fs %{
 
   vec4 frag () {
     vec4 o = vec4(1, 1, 1, 1);
-
+    vec4 normal = vec4(0., 0., 0., 0.);
+    vec4 outlineColor = vec4(0., 0., 0., 0.);
     #if USE_TEXTURE
-    vec2 mainTexUv = uv0 * mainTiling_Offset.xy + mainTiling_Offset.zw * cc_time.xx;
-      vec2 adduv = uv0*addTiling_Offset.xy + addTiling_Offset.zw *cc_time.xx;
-      vec4 tex = texture(mainTexture, mainTexUv);
-      vec4 addTex = texture(addTexture,adduv);
+      // vec2 mainTexUv = uv0 * mainTiling_Offset.xy + mainTiling_Offset.zw * cc_time.xx;
+      // vec2 adduv = uv0*addTiling_Offset.xy + addTiling_Offset.zw *cc_time.xx;
+      // vec4 tex = texture(mainTexture, mainTexUv);
+      // vec4 addTex = texture(addTexture,adduv);
       o *= CCSampleWithAlphaSeparated(cc_spriteTexture, uv0);
-      o *= addTex*addTex.r*addTex.a*mainColor*tex*tex.r*5.0*tex.a;
+      normal += CCSampleWithAlphaSeparated(cc_spriteTexture,  vec2(uv0.x- OutLine,uv0.y -OutLine));
+      normal += CCSampleWithAlphaSeparated(cc_spriteTexture,  vec2(uv0.x+ OutLine,uv0.y -OutLine));
+      normal += CCSampleWithAlphaSeparated(cc_spriteTexture,  vec2(uv0.x+ OutLine,uv0.y +OutLine));
+      normal += CCSampleWithAlphaSeparated(cc_spriteTexture,  vec2(uv0.x- OutLine,uv0.y +OutLine));
+      outlineColor = normal.a *mainColor;
+      o =mix(o *color ,outlineColor,(1.0-o.a)) ;
+      // o.a =  1.0-o.a;
+      // o *= addTex*addTex.r*addTex.a*mainColor*tex*tex.r*5.0*tex.a;
       // o.a = 
-      #if IS_GRAY
-        float gray  = 0.2126 * o.r + 0.7152 * o.g + 0.0722 * o.b;
-        o.r = o.g = o.b = gray;
-      #endif
+      // #if IS_GRAY
+      //   float gray  = 0.2126 * o.r + 0.7152 * o.g + 0.0722 * o.b;
+      //   o.r = o.g = o.b = gray;
+      // #endif
     #endif
 
-    o *= color;
-    ALPHA_TEST(o);
+    // o *= color;
+    // ALPHA_TEST(o);
     return o;
   }
 }%

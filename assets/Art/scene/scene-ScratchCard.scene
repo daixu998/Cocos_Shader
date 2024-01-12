@@ -1202,7 +1202,6 @@
     "_type": 0,
     "_inverted": false,
     "_segments": 64,
-    "_spriteFrame": null,
     "_alphaThreshold": 0.1,
     "_id": "715rBhMatOR7S2dswC9qyh"
   },
@@ -2351,7 +2350,6 @@
     "_type": 2,
     "_inverted": true,
     "_segments": 64,
-    "_spriteFrame": null,
     "_alphaThreshold": 0.1,
     "_id": "4bQa49bAdNmrzEc4jizgAN"
   },

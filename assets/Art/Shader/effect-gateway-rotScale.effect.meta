@@ -1,1 +1,22 @@
-{"ver":"1.5.4","importer":"effect","imported":true,"uuid":"f4904c7b-5af3-445e-a8ce-9b67407aab96","files":[".json"],"subMetas":{},"userData":{"combinations":[{"USE_LOCAL":[true],"USE_TEXTURE":[true]}]}}
+{
+  "ver": "1.5.9",
+  "importer": "effect",
+  "imported": true,
+  "uuid": "f4904c7b-5af3-445e-a8ce-9b67407aab96",
+  "files": [
+    ".json"
+  ],
+  "subMetas": {},
+  "userData": {
+    "combinations": [
+      {
+        "USE_LOCAL": [
+          true
+        ],
+        "USE_TEXTURE": [
+          true
+        ]
+      }
+    ]
+  }
+}

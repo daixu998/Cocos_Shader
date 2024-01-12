@@ -1,5 +1,5 @@
 {
-  "ver": "2.1.14",
+  "ver": "2.3.1",
   "importer": "fbx",
   "imported": true,
   "uuid": "a49711ad-9549-491d-86c4-5c35209d3774",
@@ -51,8 +51,8 @@
       "ver": "1.0.3",
       "imported": true,
       "files": [
-        ".png",
-        ".json"
+        ".json",
+        ".png"
       ],
       "subMetas": {}
     },
@@ -68,8 +68,8 @@
       "ver": "1.0.3",
       "imported": true,
       "files": [
-        ".png",
-        ".json"
+        ".json",
+        ".png"
       ],
       "subMetas": {}
     },
@@ -89,7 +89,7 @@
         "isUuid": true,
         "imageUuidOrDatabaseUri": "a49711ad-9549-491d-86c4-5c35209d3774@6fcb4"
       },
-      "ver": "1.0.21",
+      "ver": "1.0.22",
       "imported": true,
       "files": [
         ".json"
@@ -112,7 +112,7 @@
         "isUuid": true,
         "imageUuidOrDatabaseUri": "a49711ad-9549-491d-86c4-5c35209d3774@98ee4"
       },
-      "ver": "1.0.21",
+      "ver": "1.0.22",
       "imported": true,
       "files": [
         ".json"
@@ -182,7 +182,7 @@
     "legacyFbxImporter": false,
     "allowMeshDataAccess": true,
     "fbx": {
-      "smartMaterialEnabled": true
+      "smartMaterialEnabled": false
     },
     "redirect": "a49711ad-9549-491d-86c4-5c35209d3774@e4922",
     "assetFinder": {

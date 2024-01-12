@@ -4,7 +4,7 @@ CCEffect %{
   techniques:
   - name: opaque
     passes:
-    - vert: general-vs:vert # builtin header
+    - vert: legacy/main-functions/general-vs:vert # builtin header
       frag: unlit-fs:frag
       properties: &props
         # mainTexture:    { value: white }
@@ -14,7 +14,7 @@ CCEffect %{
         speed:  { value: 8, target: coatRoughness.z, editor: { slide : true, range : [-20.0, 40.0] , step : 0.0001 } }
   - name: transparent
     passes:
-    - vert: general-vs:vert # builtin header
+    - vert: legacy/main-functions/general-vs:vert # builtin header
       frag: unlit-fs:frag
       blendState:
         targets:
@@ -28,9 +28,9 @@ CCEffect %{
 
 CCProgram unlit-fs %{
   precision highp float;
-  #include <output>
-  #include <cc-fog-fs>
-  #include <cc-global>
+  #include <legacy/output>
+  #include <legacy/fog-fs>
+  #include <builtin/uniforms/cc-global>
   in vec2 v_uv;
   in vec3 v_position;
 

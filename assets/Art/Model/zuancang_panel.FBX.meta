@@ -1,5 +1,5 @@
 {
-  "ver": "2.1.14",
+  "ver": "2.3.1",
   "importer": "fbx",
   "imported": true,
   "uuid": "ae67fd92-0bf5-4f25-94c7-867658ebe105",
@@ -53,6 +53,9 @@
       "scenes": [
         "ae67fd92-0bf5-4f25-94c7-867658ebe105@99bb1"
       ]
+    },
+    "fbx": {
+      "smartMaterialEnabled": false
     }
   }
 }
