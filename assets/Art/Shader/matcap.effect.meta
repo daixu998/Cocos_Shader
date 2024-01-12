@@ -1,11 +1,9 @@
 {
-  "ver": "1.5.9",
+  "ver": "1.5.4",
   "importer": "effect",
-  "imported": true,
+  "imported": false,
   "uuid": "cbb25f32-8d1b-4021-9513-f9bb860972e8",
-  "files": [
-    ".json"
-  ],
+  "files": [],
   "subMetas": {},
   "userData": {}
 }

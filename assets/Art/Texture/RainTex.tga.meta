@@ -1,11 +1,11 @@
 {
-  "ver": "1.0.25",
+  "ver": "1.0.23",
   "importer": "image",
   "imported": true,
   "uuid": "a5e49973-6467-4b85-a0f4-b8b91f39ffe0",
   "files": [
-    ".json",
-    ".png"
+    ".png",
+    ".json"
   ],
   "subMetas": {
     "6c48a": {
@@ -25,7 +25,7 @@
         "imageUuidOrDatabaseUri": "a5e49973-6467-4b85-a0f4-b8b91f39ffe0",
         "visible": true
       },
-      "ver": "1.0.22",
+      "ver": "1.0.21",
       "imported": true,
       "files": [
         ".json"
