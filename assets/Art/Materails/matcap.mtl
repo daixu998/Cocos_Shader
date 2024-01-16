@@ -25,8 +25,19 @@
   "_props": [
     {
       "mainTexture": {
+        "__uuid__": "215d5c34-ffc1-4047-b84a-cf550df89fb3@6c48a",
+        "__expectedType__": "cc.Texture2D"
+      },
+      "matcapTexture": {
         "__uuid__": "7dc36afb-dca3-4b53-9aeb-379f5b11c122@6c48a",
         "__expectedType__": "cc.Texture2D"
+      },
+      "matcapColor": {
+        "__type__": "cc.Color",
+        "r": 77,
+        "g": 77,
+        "b": 77,
+        "a": 151
       }
     }
   ]

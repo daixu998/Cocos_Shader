@@ -4,18 +4,15 @@
   "_objFlags": 0,
   "_native": "",
   "_effectAsset": {
-    "__uuid__": "2f9683ef-bc81-491c-bc06-34d42a67fbb1",
+    "__uuid__": "a3cd009f-0ab0-420d-9278-b9fdab939bbc",
     "__expectedType__": "cc.EffectAsset"
   },
   "_techIdx": 0,
   "_defines": [
     {
       "USE_BATCHING": true,
-      "USE_PARALLAX": true,
       "USE_TEXTURE": true,
-      "USE_ALPHA_TEST": true,
-      "USE_HUAN": true,
-      "USE_TONMAPPING": true
+      "USE_ALPHA_TEST": true
     }
   ],
   "_states": [
@@ -32,74 +29,9 @@
   "_props": [
     {
       "mainTexture": {
-        "__uuid__": "1430de0b-05c4-44c7-bb52-95eb4c930e58@6c48a",
+        "__uuid__": "215d5c34-ffc1-4047-b84a-cf550df89fb3@6c48a",
         "__expectedType__": "cc.Texture2D"
-      },
-      "mainColor": {
-        "__type__": "cc.Color",
-        "r": 162,
-        "g": 162,
-        "b": 162,
-        "a": 255
-      },
-      "reflectColor": {
-        "__type__": "cc.Color",
-        "r": 0,
-        "g": 0,
-        "b": 0,
-        "a": 255
-      },
-      "reflectTexture": {
-        "__uuid__": "bc888c42-e054-4037-a092-8533fbfe7364@b47c0",
-        "__expectedType__": "cc.TextureCube"
-      },
-      "noisTexture": {
-        "__uuid__": "7d4d95af-5141-4748-8b7e-69550b699618@6c48a",
-        "__expectedType__": "cc.Texture2D"
-      },
-      "noisTexTiling_Offset": {
-        "__type__": "cc.Vec4",
-        "x": 3,
-        "y": 3,
-        "z": 0,
-        "w": 0
-      },
-      "noisColor": {
-        "__type__": "cc.Color",
-        "r": 0,
-        "g": 0,
-        "b": 0,
-        "a": 255
-      },
-      "xMove": -0.0284,
-      "yMove": -0.0095,
-      "distur(raodong)": 0.02,
-      "deth": -0.1,
-      "Height": 0.1,
-      "RippleTex": {
-        "__uuid__": "a5e49973-6467-4b85-a0f4-b8b91f39ffe0@6c48a",
-        "__expectedType__": "cc.Texture2D"
-      },
-      "RippleSize": 0.0827,
-      "huanColor": {
-        "__type__": "cc.Color",
-        "r": 25,
-        "g": 25,
-        "b": 25,
-        "a": 255
-      },
-      "huanSpeed": 0.2793,
-      "huanSize": 2.3511,
-      "huandaxiao": 0.998,
-      "huanint": 0.9397,
-      "WorldPos": {
-        "__type__": "cc.Vec4",
-        "x": 0.5,
-        "y": 0.5,
-        "z": 0,
-        "w": 0
-      },
-      "ToneMapping": 1.4
+      }
     }
   ]
 }

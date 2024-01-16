@@ -20,20 +20,18 @@
       "depthStencilState": {},
       "blendState": {
         "targets": [
-          {}
+          {
+            "blend": false,
+            "blendSrcAlpha": 2
+          }
         ]
       }
     }
   ],
   "_props": [
     {
-      "mainColor": {
-        "__type__": "cc.Color",
-        "r": 255,
-        "g": 211,
-        "b": 250,
-        "a": 255
-      }
+      "alphaThreshold": 0.2,
+      "OutLine": 0.02
     }
   ]
 }

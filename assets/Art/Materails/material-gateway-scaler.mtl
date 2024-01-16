@@ -19,7 +19,12 @@
       "depthStencilState": {},
       "blendState": {
         "targets": [
-          {}
+          {
+            "blendSrc": 2,
+            "blendDst": 4,
+            "blendSrcAlpha": 2,
+            "blendDstAlpha": 4
+          }
         ]
       }
     }
