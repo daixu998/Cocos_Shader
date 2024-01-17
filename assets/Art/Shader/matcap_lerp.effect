@@ -14,6 +14,8 @@ CCEffect %{
         # xxx:            { value: 0.05, target: coatRoughness.x, editor: { slide : true, range : [-2.0, 20.0] , step : 0.0001 } }
         # yyy:            { value: 0.05, target: coatRoughness.y, editor: { slide : true, range : [-2.0, 2.0] , step : 0.0001 } }
         # rotationAngle:  { value: 0.05, target: coatRoughness.z, editor: { slide : true, range : [-20.0, 20.0] , step : 0.0001 } }
+        normalMap:            { value: normal }
+        normalStrength:       { value: 1.0, target: matcapScaleParam.w, editor: { parent: USE_NORMAL_MAP, slide: true, range: [-5.0, 5.0], step: 0.001 } }
   - name: transparent
     passes:
     - vert: unlit-vs:vert # builtin header
@@ -36,7 +38,12 @@ CCProgram unlit-vs %{
   
   out vec2 v_uv;
   out vec3 v_normal;
- 
+
+  #if USE_NORMAL_MAP
+    out mediump vec4 v_tangent;
+  #endif
+
+
   vec4 vert () {
     StandardVertInput In;
     CCVertInput(In);
@@ -47,7 +54,11 @@ CCProgram unlit-vs %{
  
     v_normal = normalize((matWorldIT * vec4(In.normal.xyz, 0.0)).xyz);
     v_uv = a_texCoord;
- 
+
+    #if USE_NORMAL_MAP
+      v_tangent.xyz = normalize((matWorld * vec4(In.tangent.xyz, 0.0)).xyz);
+      v_tangent.w = In.tangent.w;
+    #endif
     return cc_matProj * (cc_matView * matWorld) * position; 
   }
 }%
@@ -61,13 +72,33 @@ CCProgram unlit-fs %{
   in vec3 v_normal;
   uniform sampler2D mainTexture;
   uniform sampler2D matcapTexture;
+
+
+  #if USE_NORMAL_MAP
+    in mediump vec4 v_tangent;
+    uniform sampler2D normalMap;
+    // #pragma define-meta NORMAL_UV options([v_uv, v_uv1])
+  #endif
     uniform Constant {
     // vec4 coatRoughness;
     vec4 mainColor;
     vec4 matcapColor;
+    vec4 matcapScaleParam;
+
     };
   vec4 frag () {
-    highp vec2 muv = vec2(cc_matView * vec4(normalize(v_normal), 0)).xy*0.5+vec2(0.5,0.5);
+    vec3 normal = v_normal;
+    #if USE_NORMAL_MAP
+      vec3 nmmp = texture(normalMap, v_uv).xyz - vec3(0.5);
+      vec3 bitangent = cross(v_normal, v_tangent.xyz) * v_tangent.w; // note the cross order
+      normal =
+        (nmmp.x * matcapScaleParam.w) * normalize(v_tangent.xyz) +
+        (nmmp.y * matcapScaleParam.w) * normalize(bitangent) +
+        nmmp.z * normalize(normal);
+        normal = v_normal + normal;
+    #endif
+
+    highp vec2 muv = vec2(cc_matView * vec4(normalize(normal), 0)).xy*0.5+vec2(0.5,0.5);
     // read texture inverting Y value
     vec4 matcapcol = texture(matcapTexture, vec2(muv.x, 1.0-muv.y)); 
     vec4 col = texture(mainTexture, v_uv); 

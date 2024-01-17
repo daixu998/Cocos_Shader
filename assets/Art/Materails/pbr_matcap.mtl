@@ -4,16 +4,37 @@
   "_objFlags": 0,
   "_native": "",
   "_effectAsset": {
-    "__uuid__": "cbb25f32-8d1b-4021-9513-f9bb860972e8",
+    "__uuid__": "b999e3bb-3cdd-4812-b03d-7a5b80c20b80",
     "__expectedType__": "cc.EffectAsset"
   },
   "_techIdx": 0,
   "_defines": [
     {
-      "USE_NORMAL_MAP": true
-    }
+      "USE_NORMAL_MAP": true,
+      "USE_ALBEDO_MAP": true
+    },
+    {},
+    {}
   ],
   "_states": [
+    {
+      "rasterizerState": {},
+      "depthStencilState": {},
+      "blendState": {
+        "targets": [
+          {}
+        ]
+      }
+    },
+    {
+      "rasterizerState": {},
+      "depthStencilState": {},
+      "blendState": {
+        "targets": [
+          {}
+        ]
+      }
+    },
     {
       "rasterizerState": {},
       "depthStencilState": {},
@@ -26,33 +47,21 @@
   ],
   "_props": [
     {
+      "normalStrength": 1.421,
       "mainTexture": {
         "__uuid__": "215d5c34-ffc1-4047-b84a-cf550df89fb3@6c48a",
         "__expectedType__": "cc.Texture2D"
-      },
-      "mainColor": {
-        "__type__": "cc.Color",
-        "r": 0,
-        "g": 0,
-        "b": 0,
-        "a": 255
-      },
-      "matcapTexture": {
-        "__uuid__": "7dc36afb-dca3-4b53-9aeb-379f5b11c122@6c48a",
-        "__expectedType__": "cc.Texture2D"
-      },
-      "matcapColor": {
-        "__type__": "cc.Color",
-        "r": 255,
-        "g": 255,
-        "b": 255,
-        "a": 151
       },
       "normalMap": {
         "__uuid__": "bde7def1-8852-4dee-a4bb-5b32c80c5b43@6c48a",
         "__expectedType__": "cc.Texture2D"
       },
-      "normalStrength": 1.625
-    }
+      "matcapTexture": {
+        "__uuid__": "7dc36afb-dca3-4b53-9aeb-379f5b11c122@6c48a",
+        "__expectedType__": "cc.Texture2D"
+      }
+    },
+    {},
+    {}
   ]
 }
