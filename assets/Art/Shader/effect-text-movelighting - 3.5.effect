@@ -1,0 +1,108 @@
+// Copyright (c) 2017-2020 Xiamen Yaji Software Co., Ltd.
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: sprite-vs:vert
+      frag: sprite-fs:frag
+      depthStencilState:
+        depthTest: false
+        depthWrite: false
+      blendState:
+        targets:
+        - blend: true
+          blendSrc: src_alpha
+          blendDst: one_minus_src_alpha
+          blendDstAlpha: one_minus_src_alpha
+      rasterizerState:
+        cullMode: none
+      properties:
+        alphaThreshold: { value: 0.5 }
+        moveColor:      { value: [1.0, 1.0, 1.0, 1.0], editor: { type: color } }
+        MoveSpeed:          { value: -0.2, target: coatRoughness.x, editor: { slide : true, range : [-2.0, 2.0] , step : 0.0001 } }
+        angel:          { value: 0.1, target: coatRoughness.y, editor: { slide : true, range : [-0.5, 0.5] , step : 0.0001 } }
+        size:          { value: 9.05, target: coatRoughness.z, editor: { slide : true, range : [1.0, 20.0] , step : 0.0001 } }
+        Int:          { value: 3.05, target: coatRoughness.w, editor: { slide : true, range :  [0.0, 10.0] , step : 0.0001 } }
+}%
+
+CCProgram sprite-vs %{
+  precision highp float;
+  #include <cc-global>
+  #if USE_LOCAL
+    #include <cc-local>
+  #endif
+  #if SAMPLE_FROM_RT
+    #include <common>
+  #endif
+  in vec3 a_position;
+  in vec2 a_texCoord;
+  in vec4 a_color;
+
+  out vec4 color;
+  out vec2 uv0;
+
+  vec4 vert () {
+    vec4 pos = vec4(a_position, 1);
+
+    #if USE_LOCAL
+      pos = cc_matWorld * pos;
+    #endif
+
+    #if USE_PIXEL_ALIGNMENT
+      pos = cc_matView * pos;
+      pos.xyz = floor(pos.xyz);
+      pos = cc_matProj * pos;
+    #else
+      pos = cc_matViewProj * pos;
+    #endif
+
+    uv0 = a_texCoord;
+    #if SAMPLE_FROM_RT
+      CC_HANDLE_RT_SAMPLE_FLIP(uv0);
+    #endif
+    color = a_color;
+
+    return pos;
+  }
+}%
+
+CCProgram sprite-fs %{
+  precision highp float;
+  #include <embedded-alpha>
+  #include <alpha-test>
+  #include <cc-global>
+
+  in vec4 color;
+
+
+  uniform Constant {
+
+    vec4 coatRoughness;
+    vec4 moveColor;
+    };
+
+
+    in vec2 uv0;
+    // uniform  sampler2D moveTexture;
+    #pragma builtin(local)
+    layout(set = 2, binding = 11) uniform sampler2D cc_spriteTexture;
+
+
+
+  vec4 frag () {
+    vec4 o = vec4(1, 1, 1, 1);
+
+
+      vec2 moveUV = uv0 +vec2((fract(cc_time.x * coatRoughness.x)-0.5)*3.0,0.0);
+
+      // float moveTex = texture(moveTexture,moveUV).r;
+      float moveTex =pow (max( 1.0- distance(moveUV.x+moveUV.y*coatRoughness.y,0.5) ,0.0),coatRoughness.z)*coatRoughness.w;   //smoothstep1(coatRoughness.z , coatRoughness.w,moveUV.x);
+      o *= CCSampleWithAlphaSeparated(cc_spriteTexture, uv0);
+      o *= color;
+      o.rgb = mix (o.rgb,moveColor.rgb,moveTex);
+
+
+    
+    ALPHA_TEST(o);
+    return o;
+  }
+}%
