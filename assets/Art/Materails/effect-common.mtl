@@ -1,0 +1,74 @@
+{
+  "__type__": "cc.Material",
+  "_name": "",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "b34cb3b4-d6d9-4844-aed0-eb66f17fa35c",
+    "__expectedType__": "cc.EffectAsset"
+  },
+  "_techIdx": "1",
+  "_defines": [
+    {
+      "USE_DISSOLUTION": true
+    }
+  ],
+  "_states": [
+    {
+      "rasterizerState": {},
+      "depthStencilState": {
+        "depthWrite": true
+      },
+      "blendState": {
+        "targets": [
+          {}
+        ]
+      }
+    }
+  ],
+  "_props": [
+    {
+      "mainTexture": {
+        "__uuid__": "215d5c34-ffc1-4047-b84a-cf550df89fb3@6c48a",
+        "__expectedType__": "cc.Texture2D"
+      },
+      "mainTextureSpeed": {
+        "__type__": "cc.Vec4",
+        "x": 0.1,
+        "y": 0,
+        "z": -0.15,
+        "w": 0.1
+      },
+      "maskTexture": {
+        "__uuid__": "7d4d95af-5141-4748-8b7e-69550b699618@6c48a",
+        "__expectedType__": "cc.Texture2D"
+      },
+      "disturTexture": {
+        "__uuid__": "bec9b491-d56b-419e-8c48-5227c0f92a8f@6c48a",
+        "__expectedType__": "cc.Texture2D"
+      },
+      "disturInt": 0.181,
+      "disturXSpeed": -0.05,
+      "dissolutionTexture": {
+        "__uuid__": "bec9b491-d56b-419e-8c48-5227c0f92a8f@6c48a",
+        "__expectedType__": "cc.Texture2D"
+      },
+      "dissolXYTileZWSpeed": {
+        "__type__": "cc.Vec4",
+        "x": 1,
+        "y": 1,
+        "z": 0.1,
+        "w": 0
+      },
+      "dissolutionInt": 0.172,
+      "dissolutionfanwei": 0.138,
+      "_DissoColor": {
+        "__type__": "cc.Color",
+        "r": 255,
+        "g": 0,
+        "b": 0,
+        "a": 255
+      }
+    }
+  ]
+}

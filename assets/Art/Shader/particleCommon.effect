@@ -1,0 +1,138 @@
+CCEffect %{
+  temporaries:
+    b1: &b1
+      targets:
+      - blend: true
+        blendSrc: src_alpha
+        blendDst: one
+        blendSrcAlpha: src_alpha
+        blendDstAlpha: one
+    b2: &b2
+      targets:
+      - blend: true
+        blendSrc: src_alpha
+        blendDst: one_minus_src_alpha
+        blendSrcAlpha: zero
+        blendDstAlpha: one
+        blendAlphaEq: max
+    d1: &d1 { depthTest: true, depthWrite: false }
+    r1: &r1 { cullMode: none }
+    p1: &p1
+      mainTexture:            { value: grey }
+      mainTiling_Offset:      { value: [1, 1, 0, 0]  }
+    p2: &p2
+      <<: *p1
+      tintColor:              { value: [0.5, 0.5, 0.5, 0.5], editor: { type: color } }
+
+      maskAR:     { value: 0.0, target: XmaskarYdisturarZdisturint.x, editor: { slide : true, range : [0.0, 1.0] , step : 1.0 } }
+      disturAR:      { value: 0.0, target: XmaskarYdisturarZdisturint.y, editor: { slide : true, range : [0.0, 1.0] , step : 1.0 } }
+      disturInt :  { value: 0.0, target: XmaskarYdisturarZdisturint.z, editor: { slide : true, range : [-3.0, 3.0] , step : 0.001 } }
+      # disturInt:  { value: 0.0, target: XmaskarYdisturarZdisturint.w, editor: { slide : true, range : [-3.0, 3.0] , step : 0.001  } }
+
+      maskTexture:           { value: white }
+      maskTiling_Speed:      { value: [1, 1, 0, 0]  }
+      
+      disturTexture: {value: white}
+      disturTiling_Speed: {value: [1, 1, 0, 0]} 
+
+      dissolutionTexture: {value: white}
+      dissolTiling_Speed:   { value: [1.0, 1.0, 0, 0] }
+      dissolutionRorA:    { value: 0.0, target: ShaderProperty.x, editor: { slide : true, range : [0.0, 1.0] ,  step : 1.0 } }
+      dissolutionInt :    { value: 0.0, target: ShaderProperty.y, editor: { slide : true, range : [0.0, 1.0] , step : 0.001  } }
+      dissolutionfanwei:    { value: 0.0, target: ShaderProperty.z, editor: { slide : true, range : [0.0, 1.0] , step : 0.001  } }
+      DissoColor: { value: [1, 1, 1, 1], linear: true, editor: { type: color } }
+  techniques:
+  - name: add
+    passes:
+    - vert: builtin/internal/particle-vs-legacy:lpvs_main
+      frag: tinted-fs:add
+      rasterizerState: *r1
+      depthStencilState: *d1
+      blendState: *b1
+      properties: *p2
+  - name: alpha-blend
+    passes:
+    - vert: builtin/internal/particle-vs-legacy:lpvs_main
+      frag: tinted-fs:add
+      rasterizerState: *r1
+      depthStencilState: *d1
+      blendState: *b2
+      properties: *p2
+
+}%
+
+// TODO: soft particle
+
+CCProgram tinted-fs %{
+  precision mediump float;
+  #include <legacy/output>
+
+  in vec2 uv;
+  in vec4 color;
+
+  uniform sampler2D mainTexture;
+  #if USE_MASKTEX
+  uniform sampler2D maskTexture;
+  #endif
+
+  #if USE_DISTORTION
+  uniform sampler2D disturTexture;
+  #endif
+
+  #if USE_DISSOLUTION  || USE_SOTF_DISSOLUTION
+  uniform sampler2D dissolutionTexture;
+  #endif
+
+  uniform FragConstants {
+    vec4 tintColor;
+    vec4 maskTiling_Speed;
+    vec4 XmaskarYdisturarZdisturint  ;
+    vec4 disturTiling_Speed;
+    vec4 ShaderProperty;
+    vec4 DissoColor;
+    vec4 dissolTiling_Speed;
+  };
+
+  vec4 add () {
+    vec2 mainUV= uv;
+    #if USE_DISTORTION
+     vec4 distur =texture (disturTexture,uv.xy*disturTiling_Speed.xy + cc_time.xx*disturTiling_Speed.zw);
+      float disturar = mix(distur.r,distur.a,XmaskarYdisturarZdisturint.y);
+      mainUV += disturar*XmaskarYdisturarZdisturint.zz;
+    #endif
+    vec4 col = 2.0 * tintColor * texture(mainTexture, mainUV);
+    #if USE_MASKTEX
+
+      vec4 mask = texture(maskTexture,mainUV.xy *maskTiling_Speed.xy + cc_time.xx*maskTiling_Speed.zw); 
+      float maskInt = mix(mask.r,mask.a,XmaskarYdisturarZdisturint.x);
+      col.a *= maskInt;
+    #endif
+
+    #if USE_SOTF_DISSOLUTION
+      vec4 softdiss = texture(dissolutionTexture,uv.xy* dissolTiling_Speed.xy + cc_time.xx*dissolTiling_Speed.zw); 
+      float softdissInt = mix(softdiss.r,softdiss.a,ShaderProperty.x);
+      float _softDiss1 = smoothstep(color.a- ShaderProperty.y, 0.0, softdissInt);
+      // float _Diss3 = step(softdissInt,color.a);  
+      col.a *= _softDiss1;// (1.0 - _softDiss1) * col.a *color.a;
+      col.rgb = mix( DissoColor.rgb ,col.rgb,  _softDiss1 - ShaderProperty.z);
+    #endif
+
+    #if USE_DISSOLUTION  
+      vec4 diss = texture(dissolutionTexture,uv.xy* dissolTiling_Speed.xy + cc_time.xx*dissolTiling_Speed.zw); 
+      float dissInt = mix(diss.r,diss.a,ShaderProperty.x);
+      // float z = ShaderProperty.y*color.a;
+      float _Diss1 =step(dissInt,color.a-ShaderProperty.y);   
+      float _Diss2=step(color.a- ShaderProperty.z,dissInt);
+      col.a *=_Diss1;
+      col.rgb = mix(col.rgb *color.rgb ,  DissoColor.rgb , _Diss2);
+    #else
+      col = col*color;
+    #endif
+
+
+    return CCFragOutput(col);
+  }
+
+
+}%
+
