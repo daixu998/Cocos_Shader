@@ -19,20 +19,25 @@ CCEffect %{
         maskTiling_Speed:      { value: [1, 1, 0, 0]  }
         maskRorA:  { value: 0.0, target: ShaderProperty.x, editor: { slide : true, range : [0.0, 1.0] , step : 1.0 } }
         maskInt :  { value: 0.0, target: disturProperty.z, editor: { slide : true, range : [0.0, 1.0] , step : 0.001 } }
+        
         backcolor:          { value: [1, 1, 1, 1], linear: true, editor: { type: color } }
+        
         disturTexture: {value: white}
-
+        disturTiling_Speed: {value: [1, 1, 0, 0]}
         disturRorA:     { value: 0.0, target: disturProperty.x, editor: { slide : true, range : [0.0, 1.0] , step : 1.0 } }
         disturInt:      { value: 0.0, target: disturProperty.y, editor: { slide : true, range : [-1.0, 1.0] , step : 0.001  } }
-        disturTiling_Speed: {value: [1, 1, 0, 0]}
+        
         
         
         dissolutionTexture: {value: white}
+        softdissolutionTexture: {value: white}
         dissolTiling_Speed:   { value: [1.0, 1.0, 0, 0] }
         dissolutionRorA:    { value: 0.0, target: ShaderProperty.y, editor: { slide : true, range : [0.0, 1.0] ,  step : 1.0 } }
         dissolutionInt :    { value: 0.0, target: ShaderProperty.z, editor: { slide : true, range : [0.0, 1.0] , step : 0.001  } }
         dissolutionfanwei:    { value: 0.0, target: ShaderProperty.w, editor: { slide : true, range : [0.0,3.0] , step : 0.001  } }
         DissoColor: { value: [1, 1, 1, 1], linear: true, editor: { type: color } }
+        rimColor: { value: [1, 1, 1, 1], linear: true, editor: { type: color } }
+        rimPow:      { value: 0.0, target: disturProperty.w, editor: { slide : true, range : [0.1, 64.0] , step : 0.001  } }
 
       migrations: &migs
         properties:
@@ -112,6 +117,7 @@ CCProgram unlit-vs %{
     vec4 dissolTiling_Speed;
     vec4 DissoColor;
     vec4 backcolor;
+    vec4 rimColor;
     };
 
     out vec4 v_uv;
@@ -130,7 +136,6 @@ CCProgram unlit-vs %{
     #if USE_TWOSIDE
       vec3 viewDirect = normalize(cc_cameraPos.xyz -In.position.xyz);
       // v_normal *= dot(v_normal, viewDirect) < 0.0 ? -1.0 : 1.0;
-
       // v_normal = normalize((matWorldIT * vec4(In.normal, 0.0)).xyz);
     #endif
 
@@ -187,10 +192,10 @@ CCProgram unlit-fs %{
     vec4 disturTiling_Speed;
     vec4 maskTiling_Speed;
     vec4 disturProperty;
-    // vec4 disturXYTileZWSpeed;
     vec4 dissolTiling_Speed;
     vec4 DissoColor;
     vec4 backcolor;
+    vec4 rimColor;
   };
 
   #if USE_VERTEX_COLOR
@@ -202,9 +207,14 @@ CCProgram unlit-fs %{
   #endif
 
 
-  #if USE_DISSOLUTION  ||USE_SOTF_DISSOLUTION
+  #if USE_DISSOLUTION  
   uniform sampler2D dissolutionTexture;
   #endif
+
+  #if USE_SOTF_DISSOLUTION
+  uniform sampler2D softdissolutionTexture;
+  #endif
+
 
   vec4 frag () {
     vec4 o = mainColor;
@@ -242,7 +252,7 @@ CCProgram unlit-fs %{
 
 
     #if USE_SOTF_DISSOLUTION
-      vec4 softdiss = texture(dissolutionTexture,v_uv.xy* dissolTiling_Speed.xy + cc_time.xx*dissolTiling_Speed.zw); 
+      vec4 softdiss = texture(softdissolutionTexture,v_uv.xy* dissolTiling_Speed.xy + cc_time.xx*dissolTiling_Speed.zw); 
       float softdissInt = mix(softdiss.r,softdiss.a,ShaderProperty.y);
       float _softDiss1 = smoothstep( 0.0, softdissInt,1.0-ShaderProperty.z);
       float _softDiss2 = smoothstep( 0.0, softdissInt,1.0-(ShaderProperty.z+ShaderProperty.w));
@@ -272,10 +282,13 @@ CCProgram unlit-fs %{
     #if USE_TWOSIDE
     vec3 viewDirect = normalize(cc_cameraPos.xyz - v_position);
     float isback  =step(dot(v_normal, viewDirect), 0.0);
-    o  =mix ( o ,o*backcolor ,isback);
+    o  = mix ( o ,o*backcolor ,isback);
+    #endif
 
-
-    
+    #if USE_RIM 
+    vec3 viewDirect1 = normalize(cc_cameraPos.xyz - v_position);
+    float rimint =1.0-abs(dot(v_normal, viewDirect1));
+      o += rimColor * pow(rimint, disturProperty.w);
     #endif
 
     CC_APPLY_FOG(o);
