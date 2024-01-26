@@ -10,7 +10,7 @@
   "_techIdx": "1",
   "_defines": [
     {
-      "USE_MASKTEX": true
+      "USE_SOTF_DISSOLUTION": true
     }
   ],
   "_states": [
@@ -37,15 +37,14 @@
         "b": 255,
         "a": 255
       },
-      "disturInt": 0.079,
       "maskTexture": {
-        "__uuid__": "7d4d95af-5141-4748-8b7e-69550b699618@6c48a",
+        "__uuid__": "bec9b491-d56b-419e-8c48-5227c0f92a8f@6c48a",
         "__expectedType__": "cc.Texture2D"
       },
       "maskTiling_Speed": {
         "__type__": "cc.Vec4",
-        "x": 1,
-        "y": 1,
+        "x": 2,
+        "y": 2,
         "z": 0.1,
         "w": 0.1
       },
@@ -60,16 +59,17 @@
         "z": 0.1,
         "w": 0
       },
+      "disturInt": 0.079,
       "dissolutionTexture": {
         "__uuid__": "7d4d95af-5141-4748-8b7e-69550b699618@6c48a",
         "__expectedType__": "cc.Texture2D"
       },
       "dissolutionfanwei": 0.093,
-      "DissoColor": {
+      "DissolutionColor": {
         "__type__": "cc.Color",
-        "r": 245,
-        "g": 255,
-        "b": 0,
+        "r": 255,
+        "g": 220,
+        "b": 111,
         "a": 255
       }
     }

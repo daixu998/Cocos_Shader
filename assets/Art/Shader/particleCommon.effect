@@ -23,24 +23,22 @@ CCEffect %{
     p2: &p2
       <<: *p1
       tintColor:              { value: [0.5, 0.5, 0.5, 0.5], editor: { type: color } }
-
-      maskAR:     { value: 0.0, target: XmaskarYdisturarZdisturint.x, editor: { slide : true, range : [0.0, 1.0] , step : 1.0 } }
-      disturAR:      { value: 0.0, target: XmaskarYdisturarZdisturint.y, editor: { slide : true, range : [0.0, 1.0] , step : 1.0 } }
-      disturInt :  { value: 0.0, target: XmaskarYdisturarZdisturint.z, editor: { slide : true, range : [-3.0, 3.0] , step : 0.001 } }
-      # disturInt:  { value: 0.0, target: XmaskarYdisturarZdisturint.w, editor: { slide : true, range : [-3.0, 3.0] , step : 0.001  } }
-
       maskTexture:           { value: white }
       maskTiling_Speed:      { value: [1, 1, 0, 0]  }
+      maskAR:     { value: 0.0, target: XmaskarYdisturarZdisturint.x, editor: { slide : true, range : [0.0, 1.0] , step : 1.0 } }
       
+      maskInt:  { value: 1.0, target: XmaskarYdisturarZdisturint.w, editor: { slide : true, range : [0.0, 1.0] , step : 0.001  } }
       disturTexture: {value: white}
       disturTiling_Speed: {value: [1, 1, 0, 0]} 
+      disturAR:      { value: 0.0, target: XmaskarYdisturarZdisturint.y, editor: { slide : true, range : [0.0, 1.0] , step : 1.0 } }
+      disturInt :  { value: 0.0, target: XmaskarYdisturarZdisturint.z, editor: { slide : true, range : [-3.0, 3.0] , step : 0.001 } }
 
       dissolutionTexture: {value: white}
       dissolTiling_Speed:   { value: [1.0, 1.0, 0, 0] }
       dissolutionRorA:    { value: 0.0, target: ShaderProperty.x, editor: { slide : true, range : [0.0, 1.0] ,  step : 1.0 } }
       dissolutionInt :    { value: 0.0, target: ShaderProperty.y, editor: { slide : true, range : [0.0, 1.0] , step : 0.001  } }
       dissolutionfanwei:    { value: 0.0, target: ShaderProperty.z, editor: { slide : true, range : [0.0, 1.0] , step : 0.001  } }
-      DissoColor: { value: [1, 1, 1, 1], linear: true, editor: { type: color } }
+      DissolutionColor: { value: [1, 1, 1, 1], linear: true, editor: { type: color } }
   techniques:
   - name: add
     passes:
@@ -89,7 +87,7 @@ CCProgram tinted-fs %{
     vec4 XmaskarYdisturarZdisturint  ;
     vec4 disturTiling_Speed;
     vec4 ShaderProperty;
-    vec4 DissoColor;
+    vec4 DissolutionColor;
     vec4 dissolTiling_Speed;
   };
 
@@ -105,7 +103,7 @@ CCProgram tinted-fs %{
 
       vec4 mask = texture(maskTexture,mainUV.xy *maskTiling_Speed.xy + cc_time.xx*maskTiling_Speed.zw); 
       float maskInt = mix(mask.r,mask.a,XmaskarYdisturarZdisturint.x);
-      col.a *= maskInt;
+      col.a *=mix(1.0, maskInt,XmaskarYdisturarZdisturint.w);
     #endif
 
     #if USE_SOTF_DISSOLUTION
@@ -114,7 +112,7 @@ CCProgram tinted-fs %{
       float _softDiss1 = smoothstep(color.a- ShaderProperty.y, 0.0, softdissInt);
       // float _Diss3 = step(softdissInt,color.a);  
       col.a *= _softDiss1;// (1.0 - _softDiss1) * col.a *color.a;
-      col.rgb = mix( DissoColor.rgb ,col.rgb,  _softDiss1 - ShaderProperty.z);
+      col.rgb = mix( DissolutionColor.rgb ,col.rgb,  _softDiss1 - ShaderProperty.z);
     #endif
 
     #if USE_DISSOLUTION  
@@ -124,7 +122,7 @@ CCProgram tinted-fs %{
       float _Diss1 =step(dissInt,color.a-ShaderProperty.y);   
       float _Diss2=step(color.a- ShaderProperty.z,dissInt);
       col.a *=_Diss1;
-      col.rgb = mix(col.rgb *color.rgb ,  DissoColor.rgb , _Diss2);
+      col.rgb = mix(col.rgb *color.rgb ,  DissolutionColor.rgb , _Diss2);
     #else
       col = col*color;
     #endif

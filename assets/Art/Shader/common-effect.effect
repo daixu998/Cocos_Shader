@@ -14,20 +14,23 @@ CCEffect %{
         alphaThreshold: { value: 0.5, target: colorScaleAndCutoff.w, editor: { parent: USE_ALPHA_TEST } }
         color:          { target: mainColor, linear: true, editor: { visible: false } } # backward compability
         maskTexture: {value: white}
+        maskTiling_Speed:      { value: [1, 1, 0, 0]  }
         maskRorA:  { value: 0.0, target: ShaderProperty.x, editor: { slide : true, range : [0.0, 1.0] , step : 1.0 } }
-        # color:          { target: mainColor, linear: true, editor: { visible: false } } # backward compability
+        maskInt :  { value: 0.0, target: disturProperty.z, editor: { slide : true, range : [0.0, 1.0] , step : 0.001 } }
+        backcolor:          { value: [1, 1, 1, 1], linear: true, editor: { type: color } }
         disturTexture: {value: white}
         # disturXYTileZWSpeed:   { value: [0, 0, 0, 0] }
         disturRorA:     { value: 0.0, target: disturProperty.x, editor: { slide : true, range : [0.0, 1.0] , step : 1.0 } }
         disturInt:      { value: 0.0, target: disturProperty.y, editor: { slide : true, range : [-1.0, 1.0] , step : 0.001  } }
-        disturXSpeed :  { value: 0.0, target: disturProperty.z, editor: { slide : true, range : [-3.0, 3.0] , step : 0.001 } }
-        disturYSpeed :  { value: 0.0, target: disturProperty.w, editor: { slide : true, range : [-3.0, 3.0] , step : 0.001  } }
+        disturTiling_Speed: {value: [1, 1, 0, 0]}
+        
+        
         dissolutionTexture: {value: white}
-        dissolXYTileZWSpeed:   { value: [1.0, 1.0, 0, 0] }
+        dissolTiling_Speed:   { value: [1.0, 1.0, 0, 0] }
         dissolutionRorA:    { value: 0.0, target: ShaderProperty.y, editor: { slide : true, range : [0.0, 1.0] ,  step : 1.0 } }
         dissolutionInt :    { value: 0.0, target: ShaderProperty.z, editor: { slide : true, range : [0.0, 1.0] , step : 0.001  } }
-        dissolutionfanwei:    { value: 0.0, target: ShaderProperty.w, editor: { slide : true, range : [0.0, 1.0] , step : 0.001  } }
-        _DissoColor: { value: [1, 1, 1, 1], linear: true, editor: { type: color } }
+        dissolutionfanwei:    { value: 0.0, target: ShaderProperty.w, editor: { slide : true, range : [0.0,3.0] , step : 0.001  } }
+        DissoColor: { value: [1, 1, 1, 1], linear: true, editor: { type: color } }
 
 
       migrations: &migs
@@ -89,22 +92,24 @@ CCProgram unlit-vs %{
   #include <legacy/fog-vs>
   #include <legacy/shadow-map-vs>
 
-  // out vec3 v_position;
+  out vec3 v_position;
   out mediump vec3 v_normal;
 
-  // #if USE_VERTEX_COLOR
+  #if USE_VERTEX_COLOR
     in lowp vec4 a_color;
     out lowp vec4 v_color;
-  // #endif
+  #endif
     uniform Constant {
     vec4 mainColor;
     vec4 colorScaleAndCutoff;
     vec4 ShaderProperty;
     vec4 mainTextureSpeed;
-    // vec4 disturXYTileZWSpeed;
+    vec4 disturTiling_Speed;
+    vec4 maskTiling_Speed;
     vec4 disturProperty;
-    vec4 dissolXYTileZWSpeed;
-    vec4 _DissoColor;
+    vec4 dissolTiling_Speed;
+    vec4 DissoColor;
+    vec4 backcolor;
     };
 
     out vec4 v_uv;
@@ -113,10 +118,6 @@ CCProgram unlit-vs %{
       vec4 tilingOffset;
     };
 
-
-
-
-
   vec4 vert () {
     StandardVertInput In;
     CCVertInput(In);
@@ -124,26 +125,31 @@ CCProgram unlit-vs %{
     mat4 matWorld, matWorldIT;
     CCGetWorldMatrixFull(matWorld, matWorldIT);
 
-     v_normal = normalize((matWorldIT * vec4(In.normal, 0.0)).xyz);
+    //  v_normal = normalize((matWorldIT * vec4(In.normal, 0.0)).xyz);
 
     #if USE_TWOSIDE
-      vec3 viewDirect = normalize(cc_cameraPos.xyz -In.position.xyz);
-      v_normal *= dot(v_normal, viewDirect) < 0.0 ? -1.0 : 1.0;
+      // vec3 viewDirect = normalize(cc_cameraPos.xyz -In.position.xyz);
+      // v_normal *= dot(v_normal, viewDirect) < 0.0 ? -1.0 : 1.0;
+
+      v_normal = normalize((matWorldIT * vec4(In.normal, 0.0)).xyz);
     #endif
+
       v_uv.xy = a_texCoord;
       v_uv.zw = a_texCoord * tilingOffset.xy + tilingOffset.zw  + cc_time.xx * mainTextureSpeed.xy;
-      mask_uv.xy = a_texCoord * tilingOffset.xy + tilingOffset.zw  + cc_time.xx * mainTextureSpeed.zw;
-      mask_uv.zw = a_texCoord * dissolXYTileZWSpeed.xy   + cc_time.xx * dissolXYTileZWSpeed.zw;
-
+      mask_uv.xy = a_texCoord * maskTiling_Speed.xy  + cc_time.xx * maskTiling_Speed.zw;
+      mask_uv.zw = a_texCoord * dissolTiling_Speed.xy   + cc_time.xx * dissolTiling_Speed.zw;
+    
+    vec4 pos = matWorld * In.position;
+    v_position = pos.xyz;
 
     #if SAMPLE_FROM_RT
         CC_HANDLE_RT_SAMPLE_FLIP(v_uv.xy);
       #endif
 
 
-    // #if USE_VERTEX_COLOR
+    #if USE_VERTEX_COLOR
       v_color = a_color;
-    // #endif
+    #endif
 
     CC_TRANSFER_FOG(matWorld * In.position);
     return cc_matProj * (cc_matView * matWorld) * In.position;
@@ -161,8 +167,8 @@ CCProgram unlit-fs %{
   #endif
   in vec4 v_uv;
   in vec4 mask_uv;
-
-    
+  in mediump vec3 v_normal;
+  in vec3 v_position;
   uniform sampler2D mainTexture;
 
 
@@ -177,44 +183,50 @@ CCProgram unlit-fs %{
     vec4 colorScaleAndCutoff;
     vec4 ShaderProperty;
     vec4 mainTextureSpeed;
+    vec4 disturTiling_Speed;
+    vec4 maskTiling_Speed;
     vec4 disturProperty;
     // vec4 disturXYTileZWSpeed;
-    vec4 dissolXYTileZWSpeed;
-    vec4 _DissoColor;
+    vec4 dissolTiling_Speed;
+    vec4 DissoColor;
+    vec4 backcolor;
   };
 
-  // #if USE_VERTEX_COLOR
+  #if USE_VERTEX_COLOR
     in lowp vec4 v_color;
-  // #endif
+  #endif
 
   #if USE_DISTUR
   uniform sampler2D disturTexture;
   #endif
 
 
-  #if USE_DISSOLUTION  
+  #if USE_DISSOLUTION  ||USE_SOTF_DISSOLUTION
   uniform sampler2D dissolutionTexture;
   #endif
 
   vec4 frag () {
     vec4 o = mainColor;
     o.rgb *= colorScaleAndCutoff.xyz;
-    vec2 mainuv = v_uv.xy;
+    vec2 mainuv = v_uv.zw;
+
+
     #if USE_DISTUR
 
-      vec4 distur =texture( disturTexture, v_uv.xy+cc_time.xx * disturProperty.zw);
+      vec4 distur =texture( disturTexture, v_uv.xy*disturTiling_Speed.xy+cc_time.xx * disturTiling_Speed.zw);
       float disturint = mix(distur.r,distur.a,disturProperty.x);
       mainuv = v_uv.zw +disturint*disturProperty.y;
 
     #endif
-    // #if USE_VERTEX_COLOR
+
+
+    #if USE_VERTEX_COLOR
       o.rgb *= SRGBToLinear(v_color.rgb);//use linear
       o.a *= v_color.a;
-    // #endif
+    #endif
 
-
-
-
+    vec3 viewDirect = normalize(cc_cameraPos.xyz - v_position);
+    float face  = dot(v_normal, viewDirect) < 0.0 ? 0.0 : 1.0;
     vec4 texColor = texture(mainTexture, mainuv);
     texColor.rgb = SRGBToLinear(texColor.rgb);
     o *= texColor;
@@ -223,33 +235,42 @@ CCProgram unlit-fs %{
 
       vec4 mask = texture(maskTexture,mask_uv.xy); 
       float maskInt = mix(mask.r,mask.a,ShaderProperty.x);
-      o.a *= maskInt;
+      o.a *=mix( 1.0,maskInt,disturProperty.z);
+    #endif
+
+
+    #if USE_SOTF_DISSOLUTION
+      vec4 softdiss = texture(dissolutionTexture,v_uv.xy* dissolTiling_Speed.xy + cc_time.xx*dissolTiling_Speed.zw); 
+      float softdissInt = mix(softdiss.r,softdiss.a,ShaderProperty.y);
+      float _softDiss1 = smoothstep( 0.0, softdissInt,1.0-ShaderProperty.z);
+      float _softDiss2 = smoothstep( 0.0, softdissInt,1.0-(ShaderProperty.z+ShaderProperty.w));
+
+      o.a *= _softDiss1;// (1.0 - _softDiss1) * col.a *color.a;
+      o.rgb = mix(o.rgb, DissoColor.rgb ,clamp (_softDiss1-_softDiss2,0.0,1.0));
     #endif
 
     #if USE_DISSOLUTION  
-      vec4 diss = texture(dissolutionTexture,mask_uv.zw); 
+      vec4 diss = texture(dissolutionTexture,v_uv.xy* dissolTiling_Speed.xy + cc_time.xx*dissolTiling_Speed.zw); 
       float dissInt = mix(diss.r,diss.a,ShaderProperty.y);
-      float _Diss1 = smoothstep(ShaderProperty.z, ShaderProperty.z - ShaderProperty.w, dissInt);
-      o.a =  (1.0 - _Diss1) * o.a *v_color.a;
-      o.rgb = mix(o.rgb,  _DissoColor.rgb , _Diss1);
-      // float fanwei = step (dissInt,ShaderProperty.z +ShaderProperty.w);
-      // o.rgb +=vec3(fanwei,fanwei,fanwei) ;
+      // float z = ShaderProperty.y*color.a;
+      float _Diss1 =step(ShaderProperty.z,dissInt);   
+      float fanwei =mix( -0.01,ShaderProperty.w,ShaderProperty.z);
+      float _Diss2=step(dissInt,ShaderProperty.z+fanwei );
+      o.a *=_Diss1;
+      o.rgb = mix(o.rgb ,  DissoColor.rgb , _Diss2);
 
-
-
-      // half4 dissolveTex = tex2D(_DissolveTex, i.uv1.xy);
-      // half _Diss = lerp(dissolveTex.a, dissolveTex.r, DissolveAR);
-      // half _Diss1 = smoothstep(_DissolvePow, _DissolvePow - _DIssloveSoft, _Diss);
-      // alpha = (1 - _Diss1) * col.a * i.color.a;
-      // col.rgb = lerp(col.rgb, _DissoColor.rgb * col.a * col.rgb, _Diss1);
     #endif
+
 
     #if USE_ALPHA_TEST
       if (o.ALPHA_TEST_CHANNEL < colorScaleAndCutoff.w) discard;
     #endif
 
 
-
+    #if USE_TWOSIDE
+    o.rgb =mix(backcolor.rgb,o.rgb,face);// vec3(face,face,face);
+    #endif
+    
     CC_APPLY_FOG(o);
     return CCFragOutput(o);
   }

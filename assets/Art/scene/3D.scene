@@ -30,32 +30,38 @@
         "__id__": 13
       },
       {
-        "__id__": 75
+        "__id__": 76
       },
       {
-        "__id__": 78
+        "__id__": 79
       },
       {
-        "__id__": 81
+        "__id__": 82
       },
       {
-        "__id__": 84
-      },
-      {
-        "__id__": 142
+        "__id__": 85
       },
       {
         "__id__": 143
+      },
+      {
+        "__id__": 144
+      },
+      {
+        "__id__": 204
+      },
+      {
+        "__id__": 207
       }
     ],
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 203
+      "__id__": 210
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 204
+      "__id__": 211
     },
     "_id": "8e132923-b21d-46d0-aeac-762861c49fd9"
   },
@@ -529,6 +535,9 @@
       },
       {
         "__id__": 73
+      },
+      {
+        "__id__": 75
       }
     ],
     "removedComponents": []
@@ -1135,6 +1144,16 @@
     ]
   },
   {
+    "__type__": "CCPropertyOverrideInfo",
+    "targetInfo": {
+      "__id__": 28
+    },
+    "propertyPath": [
+      "_active"
+    ],
+    "value": false
+  },
+  {
     "__type__": "cc.Node",
     "_name": "Torus",
     "_objFlags": 0,
@@ -1145,7 +1164,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 76
+        "__id__": 77
       }
     ],
     "_prefab": null,
@@ -1182,7 +1201,7 @@
     "_name": "Torus<ModelComponent>",
     "_objFlags": 0,
     "node": {
-      "__id__": 75
+      "__id__": 76
     },
     "_enabled": true,
     "__prefab": null,
@@ -1194,7 +1213,7 @@
     ],
     "_visFlags": 0,
     "lightmapSettings": {
-      "__id__": 77
+      "__id__": 78
     },
     "_mesh": {
       "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@40ece",
@@ -1234,7 +1253,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 79
+        "__id__": 80
       }
     ],
     "_prefab": null,
@@ -1271,7 +1290,7 @@
     "_name": "Cylinder<ModelComponent>",
     "_objFlags": 0,
     "node": {
-      "__id__": 78
+      "__id__": 79
     },
     "_enabled": true,
     "__prefab": null,
@@ -1283,7 +1302,7 @@
     ],
     "_visFlags": 0,
     "lightmapSettings": {
-      "__id__": 80
+      "__id__": 81
     },
     "_mesh": {
       "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@8abdc",
@@ -1323,15 +1342,15 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 82
+        "__id__": 83
       }
     ],
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -4.897,
+      "x": -12.178,
       "y": 1.321,
-      "z": -5.386
+      "z": -11.651
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -1360,7 +1379,7 @@
     "_name": "Cone<ModelComponent>",
     "_objFlags": 0,
     "node": {
-      "__id__": 81
+      "__id__": 82
     },
     "_enabled": true,
     "__prefab": null,
@@ -1372,7 +1391,7 @@
     ],
     "_visFlags": 0,
     "lightmapSettings": {
-      "__id__": 83
+      "__id__": 84
     },
     "_mesh": {
       "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@38fd2",
@@ -1412,7 +1431,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 85
+        "__id__": 86
       }
     ],
     "_prefab": null,
@@ -1449,7 +1468,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 84
+      "__id__": 85
     },
     "_enabled": true,
     "__prefab": null,
@@ -1461,56 +1480,56 @@
     ],
     "_visFlags": 0,
     "startColor": {
-      "__id__": 86
+      "__id__": 87
     },
     "scaleSpace": 1,
     "startSize3D": false,
     "startSizeX": {
-      "__id__": 92
-    },
-    "startSize": {
-      "__id__": 92
-    },
-    "startSizeY": {
       "__id__": 93
     },
-    "startSizeZ": {
+    "startSize": {
+      "__id__": 93
+    },
+    "startSizeY": {
       "__id__": 94
     },
-    "startSpeed": {
+    "startSizeZ": {
       "__id__": 95
+    },
+    "startSpeed": {
+      "__id__": 96
     },
     "startRotation3D": false,
     "startRotationX": {
-      "__id__": 96
-    },
-    "startRotationY": {
       "__id__": 97
     },
+    "startRotationY": {
+      "__id__": 98
+    },
     "startRotationZ": {
-      "__id__": 98
-    },
-    "startRotation": {
-      "__id__": 98
-    },
-    "startDelay": {
       "__id__": 99
     },
-    "startLifetime": {
+    "startRotation": {
+      "__id__": 99
+    },
+    "startDelay": {
       "__id__": 100
+    },
+    "startLifetime": {
+      "__id__": 101
     },
     "duration": 5,
     "loop": true,
     "simulationSpeed": 1,
     "playOnAwake": true,
     "gravityModifier": {
-      "__id__": 101
-    },
-    "rateOverTime": {
       "__id__": 102
     },
-    "rateOverDistance": {
+    "rateOverTime": {
       "__id__": 103
+    },
+    "rateOverDistance": {
+      "__id__": 104
     },
     "bursts": [],
     "_renderCulling": false,
@@ -1521,37 +1540,37 @@
     "_dataCulling": false,
     "enableCulling": false,
     "_colorOverLifetimeModule": {
-      "__id__": 104
+      "__id__": 105
     },
     "_shapeModule": {
-      "__id__": 106
+      "__id__": 107
     },
     "_sizeOvertimeModule": {
-      "__id__": 108
+      "__id__": 109
     },
     "_velocityOvertimeModule": {
-      "__id__": 113
+      "__id__": 114
     },
     "_forceOvertimeModule": {
-      "__id__": 118
+      "__id__": 119
     },
     "_limitVelocityOvertimeModule": {
-      "__id__": 122
+      "__id__": 123
     },
     "_rotationOvertimeModule": {
-      "__id__": 127
+      "__id__": 128
     },
     "_textureAnimationModule": {
-      "__id__": 131
+      "__id__": 132
     },
     "_noiseModule": {
-      "__id__": 135
-    },
-    "_trailModule": {
       "__id__": 136
     },
+    "_trailModule": {
+      "__id__": 137
+    },
     "renderer": {
-      "__id__": 141
+      "__id__": 142
     },
     "_prewarm": false,
     "_capacity": 100,
@@ -1562,25 +1581,25 @@
     "__type__": "cc.GradientRange",
     "_mode": 1,
     "gradient": {
-      "__id__": 87
+      "__id__": 88
     }
   },
   {
     "__type__": "cc.Gradient",
     "colorKeys": [
       {
-        "__id__": 88
+        "__id__": 89
       },
       {
-        "__id__": 89
+        "__id__": 90
       }
     ],
     "alphaKeys": [
       {
-        "__id__": 90
+        "__id__": 91
       },
       {
-        "__id__": 91
+        "__id__": 92
       }
     ],
     "mode": 0
@@ -1693,7 +1712,7 @@
     "__type__": "cc.ColorOvertimeModule",
     "_enable": false,
     "color": {
-      "__id__": 105
+      "__id__": 106
     }
   },
   {
@@ -1722,7 +1741,7 @@
     "arcMode": 0,
     "arcSpread": 0,
     "arcSpeed": {
-      "__id__": 107
+      "__id__": 108
     },
     "length": 5,
     "boxThickness": {
@@ -1763,16 +1782,16 @@
     "_enable": false,
     "separateAxes": false,
     "size": {
-      "__id__": 109
-    },
-    "x": {
       "__id__": 110
     },
-    "y": {
+    "x": {
       "__id__": 111
     },
-    "z": {
+    "y": {
       "__id__": 112
+    },
+    "z": {
+      "__id__": 113
     }
   },
   {
@@ -1803,16 +1822,16 @@
     "__type__": "cc.VelocityOvertimeModule",
     "_enable": false,
     "x": {
-      "__id__": 114
-    },
-    "y": {
       "__id__": 115
     },
-    "z": {
+    "y": {
       "__id__": 116
     },
-    "speedModifier": {
+    "z": {
       "__id__": 117
+    },
+    "speedModifier": {
+      "__id__": 118
     },
     "space": 1
   },
@@ -1844,13 +1863,13 @@
     "__type__": "cc.ForceOvertimeModule",
     "_enable": false,
     "x": {
-      "__id__": 119
-    },
-    "y": {
       "__id__": 120
     },
-    "z": {
+    "y": {
       "__id__": 121
+    },
+    "z": {
+      "__id__": 122
     },
     "space": 1
   },
@@ -1876,16 +1895,16 @@
     "__type__": "cc.LimitVelocityOvertimeModule",
     "_enable": false,
     "limitX": {
-      "__id__": 123
-    },
-    "limitY": {
       "__id__": 124
     },
-    "limitZ": {
+    "limitY": {
       "__id__": 125
     },
-    "limit": {
+    "limitZ": {
       "__id__": 126
+    },
+    "limit": {
+      "__id__": 127
     },
     "dampen": 3,
     "separateAxes": false,
@@ -1920,13 +1939,13 @@
     "_enable": false,
     "_separateAxes": false,
     "x": {
-      "__id__": 128
-    },
-    "y": {
       "__id__": 129
     },
-    "z": {
+    "y": {
       "__id__": 130
+    },
+    "z": {
+      "__id__": 131
     }
   },
   {
@@ -1957,10 +1976,10 @@
     "_mode": 0,
     "animation": 0,
     "frameOverTime": {
-      "__id__": 132
+      "__id__": 133
     },
     "startFrame": {
-      "__id__": 134
+      "__id__": 135
     },
     "cycleCount": 0,
     "_flipU": 0,
@@ -1973,7 +1992,7 @@
     "__type__": "cc.CurveRange",
     "mode": 1,
     "spline": {
-      "__id__": 133
+      "__id__": 134
     },
     "multiplier": 1
   },
@@ -2038,25 +2057,25 @@
     "_enable": false,
     "mode": 0,
     "lifeTime": {
-      "__id__": 137
+      "__id__": 138
     },
     "_minParticleDistance": 0.1,
     "existWithParticles": true,
     "textureMode": 0,
     "widthFromParticle": true,
     "widthRatio": {
-      "__id__": 138
+      "__id__": 139
     },
     "colorFromParticle": false,
     "colorOverTrail": {
-      "__id__": 139
+      "__id__": 140
     },
     "colorOvertime": {
-      "__id__": 140
+      "__id__": 141
     },
     "_space": 0,
     "_particleSystem": {
-      "__id__": 85
+      "__id__": 86
     }
   },
   {
@@ -2161,7 +2180,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 144
+        "__id__": 145
       }
     ],
     "_prefab": null,
@@ -2198,7 +2217,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 143
+      "__id__": 144
     },
     "_enabled": true,
     "__prefab": null,
@@ -2210,56 +2229,56 @@
     ],
     "_visFlags": 0,
     "startColor": {
-      "__id__": 145
+      "__id__": 146
     },
     "scaleSpace": 1,
     "startSize3D": false,
     "startSizeX": {
-      "__id__": 146
-    },
-    "startSize": {
-      "__id__": 146
-    },
-    "startSizeY": {
       "__id__": 147
     },
-    "startSizeZ": {
+    "startSize": {
+      "__id__": 147
+    },
+    "startSizeY": {
       "__id__": 148
     },
-    "startSpeed": {
+    "startSizeZ": {
       "__id__": 149
+    },
+    "startSpeed": {
+      "__id__": 150
     },
     "startRotation3D": false,
     "startRotationX": {
-      "__id__": 150
-    },
-    "startRotationY": {
       "__id__": 151
     },
+    "startRotationY": {
+      "__id__": 152
+    },
     "startRotationZ": {
-      "__id__": 152
-    },
-    "startRotation": {
-      "__id__": 152
-    },
-    "startDelay": {
       "__id__": 153
     },
-    "startLifetime": {
+    "startRotation": {
+      "__id__": 153
+    },
+    "startDelay": {
       "__id__": 154
+    },
+    "startLifetime": {
+      "__id__": 155
     },
     "duration": 5,
     "loop": true,
     "simulationSpeed": 0.3,
     "playOnAwake": true,
     "gravityModifier": {
-      "__id__": 155
-    },
-    "rateOverTime": {
       "__id__": 156
     },
-    "rateOverDistance": {
+    "rateOverTime": {
       "__id__": 157
+    },
+    "rateOverDistance": {
+      "__id__": 158
     },
     "bursts": [],
     "_renderCulling": false,
@@ -2270,37 +2289,37 @@
     "_dataCulling": false,
     "enableCulling": false,
     "_colorOverLifetimeModule": {
-      "__id__": 158
+      "__id__": 159
     },
     "_shapeModule": {
-      "__id__": 167
+      "__id__": 168
     },
     "_sizeOvertimeModule": {
-      "__id__": 169
+      "__id__": 170
     },
     "_velocityOvertimeModule": {
-      "__id__": 174
+      "__id__": 175
     },
     "_forceOvertimeModule": {
-      "__id__": 179
+      "__id__": 180
     },
     "_limitVelocityOvertimeModule": {
-      "__id__": 183
+      "__id__": 184
     },
     "_rotationOvertimeModule": {
-      "__id__": 188
+      "__id__": 189
     },
     "_textureAnimationModule": {
-      "__id__": 192
+      "__id__": 193
     },
     "_noiseModule": {
-      "__id__": 196
-    },
-    "_trailModule": {
       "__id__": 197
     },
+    "_trailModule": {
+      "__id__": 198
+    },
     "renderer": {
-      "__id__": 202
+      "__id__": 203
     },
     "_prewarm": false,
     "_capacity": 100,
@@ -2394,30 +2413,27 @@
     "__type__": "cc.ColorOvertimeModule",
     "_enable": true,
     "color": {
-      "__id__": 159
+      "__id__": 160
     }
   },
   {
     "__type__": "cc.GradientRange",
     "_mode": 1,
     "gradient": {
-      "__id__": 160
+      "__id__": 161
     }
   },
   {
     "__type__": "cc.Gradient",
     "colorKeys": [
       {
-        "__id__": 161
+        "__id__": 162
       },
       {
-        "__id__": 162
+        "__id__": 163
       }
     ],
     "alphaKeys": [
-      {
-        "__id__": 163
-      },
       {
         "__id__": 164
       },
@@ -2426,6 +2442,9 @@
       },
       {
         "__id__": 166
+      },
+      {
+        "__id__": 167
       }
     ],
     "mode": 0
@@ -2487,7 +2506,7 @@
     "arcMode": 0,
     "arcSpread": 0,
     "arcSpeed": {
-      "__id__": 168
+      "__id__": 169
     },
     "length": 5,
     "boxThickness": {
@@ -2528,16 +2547,16 @@
     "_enable": false,
     "separateAxes": false,
     "size": {
-      "__id__": 170
-    },
-    "x": {
       "__id__": 171
     },
-    "y": {
+    "x": {
       "__id__": 172
     },
-    "z": {
+    "y": {
       "__id__": 173
+    },
+    "z": {
+      "__id__": 174
     }
   },
   {
@@ -2568,16 +2587,16 @@
     "__type__": "cc.VelocityOvertimeModule",
     "_enable": false,
     "x": {
-      "__id__": 175
-    },
-    "y": {
       "__id__": 176
     },
-    "z": {
+    "y": {
       "__id__": 177
     },
-    "speedModifier": {
+    "z": {
       "__id__": 178
+    },
+    "speedModifier": {
+      "__id__": 179
     },
     "space": 1
   },
@@ -2609,13 +2628,13 @@
     "__type__": "cc.ForceOvertimeModule",
     "_enable": false,
     "x": {
-      "__id__": 180
-    },
-    "y": {
       "__id__": 181
     },
-    "z": {
+    "y": {
       "__id__": 182
+    },
+    "z": {
+      "__id__": 183
     },
     "space": 1
   },
@@ -2641,16 +2660,16 @@
     "__type__": "cc.LimitVelocityOvertimeModule",
     "_enable": false,
     "limitX": {
-      "__id__": 184
-    },
-    "limitY": {
       "__id__": 185
     },
-    "limitZ": {
+    "limitY": {
       "__id__": 186
     },
-    "limit": {
+    "limitZ": {
       "__id__": 187
+    },
+    "limit": {
+      "__id__": 188
     },
     "dampen": 0.3,
     "separateAxes": false,
@@ -2685,13 +2704,13 @@
     "_enable": false,
     "_separateAxes": false,
     "x": {
-      "__id__": 189
-    },
-    "y": {
       "__id__": 190
     },
-    "z": {
+    "y": {
       "__id__": 191
+    },
+    "z": {
+      "__id__": 192
     }
   },
   {
@@ -2722,10 +2741,10 @@
     "_mode": 0,
     "animation": 0,
     "frameOverTime": {
-      "__id__": 193
+      "__id__": 194
     },
     "startFrame": {
-      "__id__": 195
+      "__id__": 196
     },
     "cycleCount": 0,
     "_flipU": 0,
@@ -2738,7 +2757,7 @@
     "__type__": "cc.CurveRange",
     "mode": 1,
     "spline": {
-      "__id__": 194
+      "__id__": 195
     },
     "multiplier": 1
   },
@@ -2803,25 +2822,25 @@
     "_enable": false,
     "mode": 0,
     "lifeTime": {
-      "__id__": 198
+      "__id__": 199
     },
     "_minParticleDistance": 0.1,
     "existWithParticles": true,
     "textureMode": 0,
     "widthFromParticle": true,
     "widthRatio": {
-      "__id__": 199
+      "__id__": 200
     },
     "colorFromParticle": false,
     "colorOverTrail": {
-      "__id__": 200
+      "__id__": 201
     },
     "colorOvertime": {
-      "__id__": 201
+      "__id__": 202
     },
     "_space": 0,
     "_particleSystem": {
-      "__id__": 144
+      "__id__": 145
     }
   },
   {
@@ -2877,6 +2896,184 @@
     "_alignSpace": 2
   },
   {
+    "__type__": "cc.Node",
+    "_name": "Cylinder-002",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 205
+      }
+    ],
+    "_prefab": null,
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": -8.931,
+      "y": 0,
+      "z": -11.466
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_layer": 1073741824,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": "aabJcRvsVACpTW0N0u+ILb"
+  },
+  {
+    "__type__": "cc.MeshRenderer",
+    "_name": "Cylinder<ModelComponent>",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 204
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "_materials": [
+      {
+        "__uuid__": "c862dbc1-214a-431d-8fce-c72170b142dd",
+        "__expectedType__": "cc.Material"
+      }
+    ],
+    "_visFlags": 0,
+    "lightmapSettings": {
+      "__id__": 206
+    },
+    "_mesh": {
+      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@8abdc",
+      "__expectedType__": "cc.Mesh"
+    },
+    "_shadowCastingMode": 0,
+    "_shadowReceivingMode": 1,
+    "_shadowBias": 0,
+    "_shadowNormalBias": 0,
+    "_enableMorph": true,
+    "_id": "9fFCo/EpFEabjfBQykL/kE"
+  },
+  {
+    "__type__": "cc.ModelLightmapSettings",
+    "texture": null,
+    "uvParam": {
+      "__type__": "cc.Vec4",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 0
+    },
+    "_bakeable": false,
+    "_castShadow": false,
+    "_receiveShadow": false,
+    "_recieveShadow": false,
+    "_lightmapSize": 64
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "Cube",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 208
+      }
+    ],
+    "_prefab": null,
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": -11.582,
+      "y": 1.477,
+      "z": -14.028
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_layer": 1073741824,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": "1aeMBvtpNLMbOqf/VqQwoc"
+  },
+  {
+    "__type__": "cc.MeshRenderer",
+    "_name": "Cube<ModelComponent>",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 207
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "_materials": [
+      {
+        "__uuid__": "c862dbc1-214a-431d-8fce-c72170b142dd",
+        "__expectedType__": "cc.Material"
+      }
+    ],
+    "_visFlags": 0,
+    "lightmapSettings": {
+      "__id__": 209
+    },
+    "_mesh": {
+      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@a804a",
+      "__expectedType__": "cc.Mesh"
+    },
+    "_shadowCastingMode": 0,
+    "_shadowReceivingMode": 1,
+    "_shadowBias": 0,
+    "_shadowNormalBias": 0,
+    "_enableMorph": true,
+    "_id": "87IF3TIaJH/pl71CXYA8H8"
+  },
+  {
+    "__type__": "cc.ModelLightmapSettings",
+    "texture": null,
+    "uvParam": {
+      "__type__": "cc.Vec4",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 0
+    },
+    "_bakeable": false,
+    "_castShadow": false,
+    "_receiveShadow": false,
+    "_recieveShadow": false,
+    "_lightmapSize": 64
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "fileId": "8e132923-b21d-46d0-aeac-762861c49fd9",
     "nestedPrefabInstanceRoots": [
@@ -2888,19 +3085,19 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 205
+      "__id__": 212
     },
     "shadows": {
-      "__id__": 206
+      "__id__": 213
     },
     "_skybox": {
-      "__id__": 207
+      "__id__": 214
     },
     "fog": {
-      "__id__": 208
+      "__id__": 215
     },
     "octree": {
-      "__id__": 209
+      "__id__": 216
     }
   },
   {

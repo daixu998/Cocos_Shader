@@ -10,14 +10,14 @@
   "_techIdx": "1",
   "_defines": [
     {
-      "USE_DISSOLUTION": true
+      "USE_MASKTEX": true
     }
   ],
   "_states": [
     {
       "rasterizerState": {},
       "depthStencilState": {
-        "depthWrite": true
+        "depthTest": false
       },
       "blendState": {
         "targets": [
@@ -34,39 +34,46 @@
       },
       "mainTextureSpeed": {
         "__type__": "cc.Vec4",
-        "x": 0.1,
+        "x": 0,
         "y": 0,
-        "z": -0.15,
-        "w": 0.1
+        "z": 0.1,
+        "w": 0
       },
       "maskTexture": {
         "__uuid__": "7d4d95af-5141-4748-8b7e-69550b699618@6c48a",
         "__expectedType__": "cc.Texture2D"
       },
-      "disturTexture": {
-        "__uuid__": "bec9b491-d56b-419e-8c48-5227c0f92a8f@6c48a",
-        "__expectedType__": "cc.Texture2D"
-      },
-      "disturInt": 0.181,
-      "disturXSpeed": -0.05,
-      "dissolutionTexture": {
-        "__uuid__": "bec9b491-d56b-419e-8c48-5227c0f92a8f@6c48a",
-        "__expectedType__": "cc.Texture2D"
-      },
-      "dissolXYTileZWSpeed": {
+      "maskTiling_Speed": {
         "__type__": "cc.Vec4",
         "x": 1,
         "y": 1,
         "z": 0.1,
         "w": 0
       },
-      "dissolutionInt": 0.172,
-      "dissolutionfanwei": 0.138,
-      "_DissoColor": {
+      "maskInt": 0.254,
+      "backcolor": {
         "__type__": "cc.Color",
         "r": 255,
-        "g": 0,
+        "g": 245,
         "b": 0,
+        "a": 255
+      },
+      "disturTexture": {
+        "__uuid__": "bec9b491-d56b-419e-8c48-5227c0f92a8f@6c48a",
+        "__expectedType__": "cc.Texture2D"
+      },
+      "disturInt": 0.142,
+      "dissolutionTexture": {
+        "__uuid__": "bec9b491-d56b-419e-8c48-5227c0f92a8f@6c48a",
+        "__expectedType__": "cc.Texture2D"
+      },
+      "dissolutionInt": 0.056,
+      "dissolutionfanwei": 0.182,
+      "DissoColor": {
+        "__type__": "cc.Color",
+        "r": 255,
+        "g": 126,
+        "b": 126,
         "a": 255
       }
     }
