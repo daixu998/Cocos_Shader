@@ -10,14 +10,16 @@
   "_techIdx": "1",
   "_defines": [
     {
-      "USE_MASKTEX": true
+      "USE_TWOSIDE": true
     }
   ],
   "_states": [
     {
-      "rasterizerState": {},
+      "rasterizerState": {
+        "cullMode": 0
+      },
       "depthStencilState": {
-        "depthTest": false
+        "depthWrite": true
       },
       "blendState": {
         "targets": [
@@ -50,12 +52,12 @@
         "z": 0.1,
         "w": 0
       },
-      "maskInt": 0.254,
+      "maskInt": 1,
       "backcolor": {
         "__type__": "cc.Color",
-        "r": 255,
-        "g": 245,
-        "b": 0,
+        "r": 245,
+        "g": 2,
+        "b": 21,
         "a": 255
       },
       "disturTexture": {
@@ -72,8 +74,8 @@
       "DissoColor": {
         "__type__": "cc.Color",
         "r": 255,
-        "g": 126,
-        "b": 126,
+        "g": 0,
+        "b": 0,
         "a": 255
       }
     }

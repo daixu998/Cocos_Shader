@@ -1,0 +1,80 @@
+{
+  "ver": "2.3.1",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "c1b14ce5-30b7-4beb-acef-96c0eb3ad68b",
+  "files": [],
+  "subMetas": {
+    "35ebe": {
+      "importer": "gltf-mesh",
+      "uuid": "c1b14ce5-30b7-4beb-acef-96c0eb3ad68b@35ebe",
+      "displayName": "",
+      "id": "35ebe",
+      "name": "pCylinder1.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "c1b14ce5-30b7-4beb-acef-96c0eb3ad68b@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d93dc": {
+      "importer": "gltf-scene",
+      "uuid": "c1b14ce5-30b7-4beb-acef-96c0eb3ad68b@d93dc",
+      "displayName": "",
+      "id": "d93dc",
+      "name": "beizi.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [],
+    "legacyFbxImporter": false,
+    "allowMeshDataAccess": true,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "c1b14ce5-30b7-4beb-acef-96c0eb3ad68b@d93dc",
+    "assetFinder": {
+      "meshes": [
+        "c1b14ce5-30b7-4beb-acef-96c0eb3ad68b@35ebe"
+      ],
+      "skeletons": [],
+      "textures": [],
+      "materials": [
+        "c1b14ce5-30b7-4beb-acef-96c0eb3ad68b@8d883"
+      ],
+      "scenes": [
+        "c1b14ce5-30b7-4beb-acef-96c0eb3ad68b@d93dc"
+      ]
+    }
+  }
+}

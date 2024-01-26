@@ -9,9 +9,7 @@
   },
   "_techIdx": "1",
   "_defines": [
-    {
-      "USE_SOTF_DISSOLUTION": true
-    }
+    {}
   ],
   "_states": [
     {
@@ -48,6 +46,7 @@
         "z": 0.1,
         "w": 0.1
       },
+      "maskInt": 1,
       "disturTexture": {
         "__uuid__": "7d4d95af-5141-4748-8b7e-69550b699618@6c48a",
         "__expectedType__": "cc.Texture2D"
@@ -56,20 +55,20 @@
         "__type__": "cc.Vec4",
         "x": 1,
         "y": 1,
-        "z": 0.1,
-        "w": 0
+        "z": -1.2,
+        "w": 1.3
       },
       "disturInt": 0.079,
       "dissolutionTexture": {
         "__uuid__": "7d4d95af-5141-4748-8b7e-69550b699618@6c48a",
         "__expectedType__": "cc.Texture2D"
       },
-      "dissolutionfanwei": 0.093,
-      "DissolutionColor": {
+      "dissolutionfanwei": 0.102,
+      "DissoColor": {
         "__type__": "cc.Color",
         "r": 255,
-        "g": 220,
-        "b": 111,
+        "g": 80,
+        "b": 80,
         "a": 255
       }
     }

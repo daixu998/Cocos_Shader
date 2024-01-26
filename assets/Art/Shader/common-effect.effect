@@ -12,14 +12,16 @@ CCEffect %{
         mainColor:      { value: [1, 1, 1, 1], linear: true, editor: { type: color } }
         colorScale:     { value: [1, 1, 1], target: colorScaleAndCutoff.xyz }
         alphaThreshold: { value: 0.5, target: colorScaleAndCutoff.w, editor: { parent: USE_ALPHA_TEST } }
-        color:          { target: mainColor, linear: true, editor: { visible: false } } # backward compability
+
+        color:          { target: mainColor, linear: true, editor: { visible: false } } 
+
         maskTexture: {value: white}
         maskTiling_Speed:      { value: [1, 1, 0, 0]  }
         maskRorA:  { value: 0.0, target: ShaderProperty.x, editor: { slide : true, range : [0.0, 1.0] , step : 1.0 } }
         maskInt :  { value: 0.0, target: disturProperty.z, editor: { slide : true, range : [0.0, 1.0] , step : 0.001 } }
         backcolor:          { value: [1, 1, 1, 1], linear: true, editor: { type: color } }
         disturTexture: {value: white}
-        # disturXYTileZWSpeed:   { value: [0, 0, 0, 0] }
+
         disturRorA:     { value: 0.0, target: disturProperty.x, editor: { slide : true, range : [0.0, 1.0] , step : 1.0 } }
         disturInt:      { value: 0.0, target: disturProperty.y, editor: { slide : true, range : [-1.0, 1.0] , step : 0.001  } }
         disturTiling_Speed: {value: [1, 1, 0, 0]}
@@ -31,7 +33,6 @@ CCEffect %{
         dissolutionInt :    { value: 0.0, target: ShaderProperty.z, editor: { slide : true, range : [0.0, 1.0] , step : 0.001  } }
         dissolutionfanwei:    { value: 0.0, target: ShaderProperty.w, editor: { slide : true, range : [0.0,3.0] , step : 0.001  } }
         DissoColor: { value: [1, 1, 1, 1], linear: true, editor: { type: color } }
-
 
       migrations: &migs
         properties:
@@ -99,7 +100,8 @@ CCProgram unlit-vs %{
     in lowp vec4 a_color;
     out lowp vec4 v_color;
   #endif
-    uniform Constant {
+
+  uniform Constant {
     vec4 mainColor;
     vec4 colorScaleAndCutoff;
     vec4 ShaderProperty;
@@ -124,14 +126,12 @@ CCProgram unlit-vs %{
 
     mat4 matWorld, matWorldIT;
     CCGetWorldMatrixFull(matWorld, matWorldIT);
-
-    //  v_normal = normalize((matWorldIT * vec4(In.normal, 0.0)).xyz);
-
+    v_normal = normalize((matWorldIT * vec4(In.normal, 0.0)).xyz);
     #if USE_TWOSIDE
-      // vec3 viewDirect = normalize(cc_cameraPos.xyz -In.position.xyz);
+      vec3 viewDirect = normalize(cc_cameraPos.xyz -In.position.xyz);
       // v_normal *= dot(v_normal, viewDirect) < 0.0 ? -1.0 : 1.0;
 
-      v_normal = normalize((matWorldIT * vec4(In.normal, 0.0)).xyz);
+      // v_normal = normalize((matWorldIT * vec4(In.normal, 0.0)).xyz);
     #endif
 
       v_uv.xy = a_texCoord;
@@ -165,6 +165,7 @@ CCProgram unlit-fs %{
   #if USE_ALPHA_TEST
     #pragma define-meta ALPHA_TEST_CHANNEL options([a, r, g, b])
   #endif
+
   in vec4 v_uv;
   in vec4 mask_uv;
   in mediump vec3 v_normal;
@@ -225,8 +226,9 @@ CCProgram unlit-fs %{
       o.a *= v_color.a;
     #endif
 
-    vec3 viewDirect = normalize(cc_cameraPos.xyz - v_position);
-    float face  = dot(v_normal, viewDirect) < 0.0 ? 0.0 : 1.0;
+    // #if USE_TWOSIDE
+
+
     vec4 texColor = texture(mainTexture, mainuv);
     texColor.rgb = SRGBToLinear(texColor.rgb);
     o *= texColor;
@@ -268,9 +270,14 @@ CCProgram unlit-fs %{
 
 
     #if USE_TWOSIDE
-    o.rgb =mix(backcolor.rgb,o.rgb,face);// vec3(face,face,face);
-    #endif
+    vec3 viewDirect = normalize(cc_cameraPos.xyz - v_position);
+    float isback  =step(dot(v_normal, viewDirect), 0.0);
+    o  =mix ( o ,o*backcolor ,isback);
+
+
     
+    #endif
+
     CC_APPLY_FOG(o);
     return CCFragOutput(o);
   }
