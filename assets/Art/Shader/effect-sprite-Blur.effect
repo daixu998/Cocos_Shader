@@ -1,0 +1,141 @@
+// Effect Syntax Guide: https://docs.cocos.com/creator/manual/zh/shader/index.html
+
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: sprite-vs:vert
+      frag: sprite-fs:frag
+      depthStencilState:
+        depthTest: false
+        depthWrite: false
+      blendState:
+        targets:
+        - blend: true
+          blendSrc: one_src_alpha
+          blendDst: one_minus_src_alpha
+          blendSrcAlpha: one_src_alpha
+          blendDstAlpha: one_minus_src_alpha
+      rasterizerState:
+        cullMode: none
+      properties:
+        alphaThreshold: { value: 0.5 }
+
+        xxx:            { value: 0.001, target: coatRoughness.x, editor: { slide : true, range : [0.0, 0.01] , step : 0.00001 } }
+        yyy:            { value: 0.001, target: coatRoughness.y, editor: { slide : true, range : [0.0, 0.01] , step : 0.00001 } }
+        zzz:            { value: 0.001, target: coatRoughness.z, editor: { slide : true, range : [0.0, 0.01] , step : 0.00001 } }
+}%
+
+
+
+CCProgram sprite-vs %{
+  precision highp float;
+  #include <builtin/uniforms/cc-global>
+  #if USE_LOCAL
+    #include <builtin/uniforms/cc-local>
+  #endif
+  #if SAMPLE_FROM_RT
+    #include <common/common-define>
+  #endif
+  in vec3 a_position;
+  in vec2 a_texCoord;
+  in vec4 a_color;
+
+  out vec4 color;
+  out vec2 uv0;
+  out vec2 uv;
+
+  vec4 vert () {
+
+    vec4 pos = vec4(a_position, 1);
+
+    #if USE_LOCAL
+      pos = cc_matWorld * pos;
+    #endif
+
+    #if USE_PIXEL_ALIGNMENT
+      pos = cc_matView * pos;
+      pos.xyz = floor(pos.xyz);
+      pos = cc_matProj * pos;
+    #else
+      pos = cc_matViewProj * pos;
+    #endif
+
+    uv0 = a_texCoord;
+    uv = a_texCoord;
+    #if SAMPLE_FROM_RT
+      CC_HANDLE_RT_SAMPLE_FLIP(uv0);
+    #endif
+    color = a_color;
+
+    return pos;
+  }
+}%
+
+CCProgram sprite-fs %{
+  precision highp float;
+  #include <builtin/internal/embedded-alpha>
+  #include <builtin/internal/alpha-test>
+  #include <builtin/uniforms/cc-global>
+  in vec4 color;
+  in vec2 v_uv;
+
+    in vec2 uv0;
+    #pragma builtin(local)
+    layout(set = 2, binding = 11) uniform sampler2D cc_spriteTexture;
+
+  uniform Constant {
+
+    vec4 coatRoughness;
+    };
+
+
+
+    vec4 frag () {
+
+
+     
+// #if SUE_GAOSI
+    float step =coatRoughness.z;
+      vec4  o = vec4(0.0);
+      #if USE_GAOSI
+        o += 0.1572 * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0);
+        o += 0.0627 * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(1, 1)*step);
+        o += 0.0627 * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(1, -1)*step);
+        o += 0.0627 * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(-1, 1)*step);
+        o += 0.0627 * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(-1, -1)*step);
+
+        o += 0.148 * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(0, 1)*step);
+        o += 0.148 * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(0, -1)*step);
+        o += 0.148 * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(1, 0)*step);
+        o += 0.148 * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(-1, 0)*step);
+        #else
+         o += 0.2270270270 * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0);
+           o+= 0.1945945946 * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(1.0 *  coatRoughness.x  , 1.0 * coatRoughness.y));
+           o+= 0.1216216216 * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(2.0 *  coatRoughness.x  , 2.0 * coatRoughness.y));
+           o+= 0.0540540541 * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(3.0 *  coatRoughness.x  , 3.0 * coatRoughness.y));
+           o+= 0.0162162162 * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(4.0 *  coatRoughness.x  , 4.0 * coatRoughness.y));
+           // 左边/下方的采样点 
+           o+= 0.1945945946 * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(-1.0 * coatRoughness.x  , -1.0 *coatRoughness.y ));
+           o+= 0.1216216216 * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(-2.0 * coatRoughness.x  , -2.0 *coatRoughness.y ));
+           o+= 0.0540540541 * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(-3.0 * coatRoughness.x  , -3.0 *coatRoughness.y ));
+           o+= 0.0162162162 * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(-4.0 * coatRoughness.x  , -4.0 *coatRoughness.y ));
+      #endif
+      //  vec4 o  = 0.2270270270 * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0);
+      //  vec4 o  = 0.107        * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(1.0 *  coatRoughness.x  , 1.0 * coatRoughness.y));
+      //       o += 0.083        * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(2.0 *  coatRoughness.x  , 2.0 * coatRoughness.y));
+      //       o += 0.083        * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(3.0 *  coatRoughness.x  , 3.0 * coatRoughness.y));
+      //       o += 0.083        * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(4.0 *  coatRoughness.x  , 4.0 * coatRoughness.y));
+      //       o += 0.083        * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(5.0 *  coatRoughness.x  , 5.0 * coatRoughness.y));
+      //       o += 0.063        * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(6.0 *  coatRoughness.x  , 6.0 * coatRoughness.y));
+      //       // 左边/下       
+      //       o += 0.103        * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(-1.0 * coatRoughness.x  , -1.0 *coatRoughness.y ));
+      //       o += 0.083        * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(-2.0 * coatRoughness.x  , -2.0 *coatRoughness.y ));
+      //       o += 0.083        * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(-3.0 * coatRoughness.x  , -3.0 *coatRoughness.y ));
+      //       o += 0.083        * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(-4.0 * coatRoughness.x  , -4.0 *coatRoughness.y ));
+      //       o += 0.083        * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(-5.0 * coatRoughness.x  , -5.0 *coatRoughness.y ));
+      //       o += 0.063        * CCSampleWithAlphaSeparated(cc_spriteTexture, uv0 + vec2(-6.0 * coatRoughness.x  , -6.0 *coatRoughness.y ));
+    o*= color;
+    // ALPHA_TEST(o);
+    return o;
+  }
+}%
